@@ -11,11 +11,45 @@
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
+// Route::get('/', function () {
+//     return view('dashboard');
+// });
+Route::get('/','Auth\LoginController@showLoginForm')->name('login');
+Route::get('/home', function () { return view('pages.admin.dashboard2'); });
+// Route::get('/','DashboardController@index');
+ Route::get('login','Auth\LoginController@showLoginForm')->name('login');
+ Route::post('login','Auth\LoginController@login');
+ Route::post('logout','Auth\LoginController@Logout')->name('logout');
+
+ Route::get('register','Auth\RegisterController@showRegistrationForm')->name('Register');
+ Route::post('register','Auth\RegisterController@register');
+
+ Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm');
+ Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail');
+ Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm');
+ Route::post('password/reset','Auth\ResetPasswordController@reset');
+
+
+
+ Route::group(['prefix' => 'settings'], function(){
+    Route::get('categories','CategoriesController@index');
+    Route::get('about','AboutController@index');
+
+    Route::get('buttons', function () { return view('pages.basic-ui.buttons'); });
+    Route::get('badges', function () { return view('pages.basic-ui.badges'); });
+    Route::get('breadcrumbs', function () { return view('pages.basic-ui.breadcrumbs'); });
+    Route::get('dropdowns', function () { return view('pages.basic-ui.dropdowns'); });
+    Route::get('modals', function () { return view('pages.basic-ui.modals'); });
+    Route::get('progress-bar', function () { return view('pages.basic-ui.progress-bar'); });
+    Route::get('pagination', function () { return view('pages.basic-ui.pagination'); });
+    Route::get('tabs', function () { return view('pages.basic-ui.tabs'); });
+    Route::get('typography', function () { return view('pages.basic-ui.typography'); });
+    Route::get('tooltips', function () { return view('pages.basic-ui.tooltips'); });
 });
 
-// Route::get('/','DashboardController@index');
+
+
+
 
 Route::group(['prefix' => 'basic-ui'], function(){
     Route::get('accordions', function () { return view('pages.basic-ui.accordions'); });
@@ -55,9 +89,36 @@ Route::group(['prefix' => 'editors'], function(){
     Route::get('text-editor', function () { return view('pages.editors.text-editor'); });
     Route::get('code-editor', function () { return view('pages.editors.code-editor'); });
 });
+Route::group(['prefix' => 'admin'], function(){
+    Route::get('inventory', function () { return view('pages.editors.text-editor'); });
+    Route::get('inventories', function () { return view('pages.inventories.list'); });
+    Route::get('orders', function () { return view('pages.transactions.orders'); });
+    Route::get('providers', 'ProviderController@index')->name('providers.index');
+    Route::get('providers/create', 'ProviderController@create')->name('providers.create');
+    Route::post('providers/store', 'ProviderController@store')->name('providers.store');
 
-Route::group(['prefix' => 'charts'], function(){
+    Route::Post('providers/destroy/{id}', 'ProviderController@destroy')->name('providers.destroy');
+    Route::get('providers/show/{id}', 'ProviderController@show')->name('providers.show');
+    Route::get('providers/edit/{id}', 'ProviderController@edit')->name('providers.edit');
+    Route::get('providers/update/{id}', 'ProviderController@update')->name('providers.update');
+
+    
+
+    
+});
+
+Route::group(['prefix' => 'inventories'], function(){
+    Route::get('/', function () { return view('pages.inventories.list'); });
+    Route::get('create', function () { return view('pages.inventories.create'); });
+    Route::get('view/{id}', function () { return view('pages.inventories.show'); });
+    
+});
+
+Route::group(['prefix' => 'admin'], function(){
     Route::get('chartjs', function () { return view('pages.charts.chartjs'); });
+    Route::get('/', function () { return view('pages.admin.dashboard'); });
+
+    
     Route::get('morris', function () { return view('pages.charts.morris'); });
     Route::get('flot', function () { return view('pages.charts.flot'); });
     Route::get('google-charts', function () { return view('pages.charts.google-charts'); });
@@ -65,6 +126,7 @@ Route::group(['prefix' => 'charts'], function(){
     Route::get('c3-charts', function () { return view('pages.charts.c3-charts'); });
     Route::get('chartist', function () { return view('pages.charts.chartist'); });
     Route::get('justgage', function () { return view('pages.charts.justgage'); });
+   
 });
 
 Route::group(['prefix' => 'tables'], function(){
@@ -99,6 +161,7 @@ Route::group(['prefix' => 'user-pages'], function(){
     Route::get('register', function () { return view('pages.user-pages.register'); });
     Route::get('register-2', function () { return view('pages.user-pages.register-2'); });
     Route::get('lock-screen', function () { return view('pages.user-pages.lock-screen'); });
+    Route::get('list','UsersController@index');
 });
 
 Route::group(['prefix' => 'error-pages'], function(){
@@ -139,3 +202,6 @@ Route::get('/clear-cache', function() {
 Route::any('/{page?}',function(){
     return View::make('pages.error-pages.error-404');
 })->where('page','.*');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
