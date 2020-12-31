@@ -26,7 +26,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-sm table-hover">
+                            <table class="table table-striped">
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
@@ -36,6 +36,7 @@
 										<th>Item Code</th>
 										<th>Unit</th>
 										<th>Amount</th>
+                                        <th>status</th>
 
                                         <th></th>
                                     </tr>
@@ -43,13 +44,21 @@
                                 <tbody>
                                     @foreach ($items as $item)
                                         <tr>
-                                            <td class=" {{ $item->amount<=3?'bg-danger text-white':'' }}">{{ ++$i }}</td>
+                                            <td>{{ ++$i }}</td>
                                             
-											<td>{{ $item->ItemName }}</td>
+											<td  class=" {{ $item->amount<=3?'text-danger text-white':'' }}">{{ $item->ItemName }}</td>
 								
 											<td>{{ $item->Item_code }}</td>
 											<td>{{ $item->unit }}</td>
 											<td>{{ $item->amount }}</td>
+                                            <td>
+                                            <div class="progress">
+                                            <div role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                                    aria-valuemax="100" class="progress-bar {{ $item->amount<=3?'bg-danger':'bg-success' }} "
+                                                    style="width:{{ $item->amount<=3?'99%':'90%' }};">
+                                              </div>
+                                              </div>
+                                            </td>
 
                                             <td>
                                                 <form action="{{ route('items.destroy',$item->Item_code ) }}" method="POST">
