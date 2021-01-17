@@ -11,6 +11,15 @@ use Illuminate\Http\Request;
  */
 class ItemController extends Controller
 {
+      /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -62,6 +71,11 @@ class ItemController extends Controller
         $item=Item::where('Item_code',"=", $id)->first();
         return view('item.show', compact('item'));
     }
+    public function details($id)
+    {
+        $item=Item::where('Item_code',"=", $id)->first();
+        return response()->json(['details'=>$item]);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -76,6 +90,7 @@ class ItemController extends Controller
        
         return view('item.edit', compact('item'));
     }
+ 
 
     /**
      * Update the specified resource in storage.

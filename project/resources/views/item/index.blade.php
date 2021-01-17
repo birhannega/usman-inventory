@@ -5,9 +5,8 @@
 @endpush
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-header">
                   
@@ -29,28 +28,27 @@
                             <table class="table table-striped">
                                 <thead class="thead">
                                     <tr>
-                                        <th>No</th>
                                         
-										<th>Itemname</th>
-						
-										<th>Item Code</th>
+										<th>Name</th>
+										<th>Code</th>
 										<th>Unit</th>
-										<th>Amount</th>
+                                        <th>Amount</th>
+                                        <th>Current price</th>
                                         <th>status</th>
-
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($items as $item)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
                                             
-											<td  class=" {{ $item->amount<=3?'text-danger text-white':'' }}">{{ $item->ItemName }}</td>
+											<td  class="text-capitalize {{ $item->amount<=3?'text-danger text-white':'' }}">{{ $item->ItemName }}</td>
 								
 											<td>{{ $item->Item_code }}</td>
 											<td>{{ $item->unit }}</td>
-											<td>{{ $item->amount }}</td>
+                                            <td>{{ $item->amount }}</td>
+                                            <td>{{ $item->current_price }}</td>
+
                                             <td>
                                             <div class="progress">
                                             <div role="progressbar" aria-valuenow="75" aria-valuemin="0"
@@ -63,7 +61,7 @@
                                             <td>
                                                 <form action="{{ route('items.destroy',$item->Item_code ) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('items.show',$item->Item_code ) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('items.edit',$item->Item_code ) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                                    {{-- <a class="btn btn-sm btn-success" href="{{ route('items.edit',$item->Item_code ) }}"><i class="fa fa-fw fa-edit"></i> Edit</a> --}}
                                                     {{@csrf_field()}}
                                         
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
@@ -76,8 +74,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $items->links() !!}
+                {!! $items->links("pagination::bootstrap-4") !!}
             </div>
-        </div>
     </div>
 @endsection

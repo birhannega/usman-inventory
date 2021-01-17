@@ -5,6 +5,7 @@
             {{ Form::label('Name') }}
         {{ Form::text('ItemName', $item->ItemName, 
             ['class' => 'form-control' . ($errors->has('ItemName') ? ' is-invalid' : ''), 
+            
             'placeholder' => 'Itemname']) }} 
 
             {!! $errors->first('ItemName', '<div class="invalid-feedback">:message</p>') !!}
@@ -12,7 +13,8 @@
    
         <div class="form-group">
             {{ Form::label('code') }}
-            {{ Form::text('Item_code', $item->Item_code, ['class' => 'form-control' . ($errors->has('Item_code') ? ' is-invalid' : ''), 'placeholder' => 'Item Code']) }}
+            {{ Form::text('Item_code', $item->Item_code, ['class' => 'form-control' . ($errors->has('Item_code') ? ' is-invalid' : ''), 
+             'placeholder' => 'Item Code']) }}
             {!! $errors->first('Item_code', '<div class="invalid-feedback">:message</p>') !!}
         </div>
         <div class="form-group">
@@ -22,7 +24,10 @@
         </div>
         <div class="form-group">
             {{ Form::label('Initial Amount') }}
-            {{ Form::text('amount', $item->amount, ['class' => 'form-control' . ($errors->has('amount') ? ' is-invalid' : ''), 'placeholder' => 'Amount']) }}
+            {{ Form::text('amount', $item->amount, ['class' => 'form-control' . ($errors->has('amount') ? ' is-invalid' : ''),
+             'placeholder' => 'Amount',
+             
+             ]) }}
             {!! $errors->first('amount', '<div class="invalid-feedback">:message</p>') !!}
         </div>
     

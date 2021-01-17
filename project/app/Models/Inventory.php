@@ -24,13 +24,10 @@ class Inventory extends Model
 {
     
     static $rules = [
-	//	'InventoryId' => 'required',
 		'ItemCode' => 'required',
 		'Quantity' => 'required',
-		'UnitPrice' => 'required',
-	//	'TotalPrice' => 'required',
-	//	'UpdatedUserId' => 'required',
-	//	'CreatedUserId' => 'required',
+    'UnitPrice' => 'required',
+    'sale_price' => 'required|gt:UnitPrice+100',
     ];
 
     protected $perPage = 5;
@@ -40,7 +37,7 @@ class Inventory extends Model
      *
      * @var array
      */
-    protected $fillable = ['ItemCode','Quantity','UnitPrice'];
+    protected $fillable = ['ItemCode','Quantity','UnitPrice','sale_price'];
 
 
 

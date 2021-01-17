@@ -127,6 +127,73 @@ Route::group(['prefix' => 'credit'], function(){
 });
 
 
+Route::group(['prefix' => 'proforma'], function(){
+    Route::get('/', 'ProformaController@index')->name('proformas.index');
+    Route::get('/list', 'ProformaController@index')->name('proformas.index');
+    Route::get('/create', 'ProformaController@create')->name('proformas.create');
+    Route::get('/show/{id}', 'ProformaController@show')->name('proformas.show');
+    Route::get('/edit/{id}', 'ProformaController@edit')->name('proformas.edit');
+
+    Route::post('/destroy/{id}', 'ProformaController@destroy')->name('proformas.destroy');
+    Route::post('/store', 'ProformaController@store')->name('proformas.store');
+    Route::patch('/update/{id}', 'ProformaController@update')->name('proformas.update');
+});
+
+Route::get('invoice', function () { return view('pages.attachment.invoice'); });
+Route::get('attachment', function () { return view('pages.attachment.invoice'); });
+
+
+
+Route::group(['prefix' => 'expense'], function(){
+    Route::get('/', 'ExpenseController@index')->name('expenses.index');
+    Route::get('/list', 'ExpenseController@index')->name('expenses.index');
+    Route::get('/create', 'ExpenseController@create')->name('expenses.create');
+    Route::get('/show/{id}', 'ExpenseController@show')->name('expenses.show');
+    Route::get('/edit/{id}', 'ExpenseController@edit')->name('expenses.edit');
+
+    Route::post('/destroy/{id}', 'ExpenseController@destroy')->name('expenses.destroy');
+    Route::post('/store', 'ExpenseController@store')->name('expenses.store');
+    Route::patch('/update/{id}', 'ExpenseController@update')->name('expenses.update');
+});
+
+
+Route::group(['prefix' => 'sales'], function(){
+    Route::get('/', 'SaleController@index')->name('sales.index');
+    Route::get('/list', 'SaleController@index')->name('sales.index');
+    Route::get('/create', 'SaleController@create')->name('sales.create');
+    Route::get('/show/{id}', 'SaleController@show')->name('sales.show');
+    Route::get('/edit/{id}', 'SaleController@edit')->name('sales.edit');
+
+    Route::post('/destroy/{id}', 'SaleController@destroy')->name('sales.destroy');
+    Route::post('/store', 'SaleController@store')->name('sales.store');
+    Route::patch('/update/{id}', 'SaleController@update')->name('sales.update');
+});
+
+
+
+Route::group(['prefix' => 'lookuptype'], function(){
+    Route::get('/', 'LookupTypeController@index')->name('lookup-types.index');
+    Route::get('/list', 'LookupTypeController@index')->name('lookup-types.index');
+    Route::get('/create', 'LookupTypeController@create')->name('lookup-types.create');
+    Route::get('/show/{id}', 'LookupTypeController@show')->name('lookup-types.show');
+    Route::get('/edit/{id}', 'LookupTypeController@edit')->name('lookup-types.edit');
+
+    Route::post('/destroy/{id}', 'LookupTypeController@destroy')->name('lookup-types.destroy');
+    Route::post('/store', 'LookupTypeController@store')->name('lookup-types.store');
+    Route::patch('/update/{id}', 'LookupTypeController@update')->name('lookup-types.update');
+});
+Route::group(['prefix' => 'lookup'], function(){
+    Route::get('/', 'LookupController@index')->name('lookupes.index');
+    Route::get('/list', 'LookupController@index')->name('lookups.index');
+    Route::get('/create', 'LookupController@create')->name('lookups.create');
+    Route::get('/show/{id}', 'LookupController@show')->name('lookups.show');
+    Route::get('/edit/{id}', 'LookupController@edit')->name('lookups.edit');
+
+    Route::post('/destroy/{id}', 'LookupController@destroy')->name('lookups.destroy');
+    Route::post('/store', 'LookupController@store')->name('lookups.store');
+    Route::patch('/update/{id}', 'LookupController@update')->name('lookups.update');
+});
+
 
 Route::group(['prefix' => 'forms'], function(){
     Route::get('basic-elements', function () { return view('pages.forms.basic-elements'); });
@@ -158,6 +225,8 @@ Route::group(['prefix' => 'inventories'], function(){
     Route::get('inventories/show/{InventoryId}', 'InventoryController@show')->name('inventories.show');
     Route::get('inventories/edit/{InventoryId}', 'InventoryController@edit')->name('inventories.edit');
     Route::post('inventories/update/{InventoryId}', 'InventoryController@update')->name('inventories.update');   
+    Route::post('/search', 'InventoryController@search')->name('search.inventory');   
+
 });
 
 
@@ -166,27 +235,17 @@ Route::group(['prefix' => 'inventories'], function(){
 Route::group(['prefix' => 'items'], function(){
 
     Route::get('/', 'ItemController@index')->name('items.index');
+    Route::get('/details/{id}', 'ItemController@details')->name('items.details');
     Route::get('/list', 'ItemController@index')->name('Item.index');
     Route::get('/create', 'ItemController@create')->name('items.create');
     Route::post('items/store', 'ItemController@store')->name('items.store');
     Route::Post('items/destroy/{ItemId}', 'ItemController@destroy')->name('items.destroy');
     Route::get('items/show/{ItemId}', 'ItemController@show')->name('items.show');
     Route::get('items/edit/{ItemId}', 'ItemController@edit')->name('items.edit');
-    Route::post('items/update/{ItemId}', 'ItemController@update')->name('items.update'); 
-
-
-
-
-
+    Route::patch('items/update/{ItemId}', 'ItemController@update')->name('items.update'); 
 
 });
 
-// Route::group(['prefix' => 'inventories'], function(){
-//     Route::get('/', function () { return view('pages.inventories.list'); });
-//     Route::get('create', function () { return view('pages.inventories.create'); });
-//     Route::get('view/{id}', function () { return view('pages.inventories.show'); });
-    
-// });
 
 Route::group(['prefix' => 'admin'], function(){
     Route::get('chartjs', function () { return view('pages.charts.chartjs'); });

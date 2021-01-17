@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\PriceChange;
 use Auth;
+use carbon\carbon;
 
 /**
  * Class InventoryController
@@ -13,6 +15,15 @@ use Auth;
  */
 class InventoryController extends Controller
 {
+      /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,17 +31,11 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $inventories = Inventory::orderBy('inventories.created_at','desc')
-        ->join('items', 'inventories.ItemCode', '=', 'items.Item_code')
-        ->paginate();
+        $items= Item::all();
+        $selected = Item::first()->Item_code;
+        $inventories = Inventory::orderBy('inventories.created_at','desc')->paginate();
 
-        // DB::table('users')
-        //     ->join('contacts', 'users.id', '=', 'contacts.user_id')
-        //     ->join('orders', 'users.id', '=', 'orders.user_id')
-        //     ->select('users.id', 'contacts.phone', 'orders.price')
-        //     ->get();
-
-        return view('pages.inventory.index', compact('inventories'))
+        return view('pages.inventory.index', compact('inventories','selected','items'))
             ->with('i', (request()->input('page', 1) - 1) * $inventories->perPage());
     }
 
@@ -42,7 +47,7 @@ class InventoryController extends Controller
     public function create()
     {
         $inventory = new Inventory();
-      $items= Item::all();
+        $items= Item::all();
        // $items = Item::pluck('ItemName', 'Item_code');
         $selected = Item::first()->Item_code;
 
@@ -59,22 +64,45 @@ class InventoryController extends Controller
     {
         request()->validate(Inventory::$rules);
 
-       // $inventory = Inventory::create($request->all());
+       // save inventory data
         $inv= new Inventory();
         $inv->ItemCode= $request->ItemCode;
         $inv->Quantity=$request->Quantity;
         $inv->UnitPrice=$request->UnitPrice;
         $inv->TotalPrice=$request->Quantity*$request->UnitPrice;
+        $inv->sale_price=$request->sale_price;
         $inv->CreatedUserId=Auth::user()->id;
+        $inv->created_at=carbon::now()->toDateTimeString();
         $inv->save();
-        $old_item= Item::where('Item_code', $request->ItemCode)->first();
-        Item::where('Item_code', $request->ItemCode)->update(
-            ['amount'=> $old_item->amount+$inv->Quantity]
-        );
-        //$old_item->amount= $old_item->amount- $request->Quantity;
+      // inventory record end
+      $old_item= Item::where('Item_code', $request->ItemCode)->first();
 
-        return redirect()->route('inventories.index')
-            ->with('success', 'Inventory created successfully.');
+      //start recording price changes
+      $change= new PriceChange();
+      $change->oldPrice= $old_item->current_price;
+      $change->newPrice= $request->sale_price;
+      $change->created_at=carbon::now()->toDateTimeString();
+      $change->Item_code=$request->ItemCode;
+      $change->created_by=Auth::user()->id;
+      $change->Save();
+      //end recording price changes
+
+
+//update current stock and current sale price of an item      
+
+         Item::where('Item_code', $request->ItemCode)->update(
+             [
+                 'amount'=> $old_item->amount+$inv->Quantity,
+                 'current_price'=> $request->sale_price
+             ]
+
+         );
+         //end updating current stock and current sale price of an item      
+
+       // $old_item->amount= $old_item->amount- $request->Quantity;
+
+         return redirect()->route('inventories.index')
+             ->with('success', 'Inventory created successfully.');
     }
 
     /**
@@ -134,4 +162,13 @@ class InventoryController extends Controller
         return redirect()->route('inventories.index')
             ->with('success', 'Inventory deleted successfully');
     }
+
+    function search(Request $request){
+       // return $request;
+        $inventories=Inventory::where('ItemCode',"=", $request->item_code)->orderBy('inventories.created_at','desc')->paginate();;
+        $selected=Inventory::where('ItemCode',"=", $request->item_code)->first();
+        $items= Item::all();
+
+        return view('pages.inventory.index', compact('inventories','selected','items'))
+            ->with('i', (request()->input('page', 1) - 1) * $inventories->perPage());    }
 }
