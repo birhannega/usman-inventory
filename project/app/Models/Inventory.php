@@ -27,7 +27,7 @@ class Inventory extends Model
 		'ItemCode' => 'required',
 		'Quantity' => 'required',
     'UnitPrice' => 'required',
-    'sale_price' => 'required|gt:UnitPrice+100',
+    'sale_price' => 'required',
     ];
 
     protected $perPage = 5;

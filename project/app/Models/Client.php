@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property $name
  * @property $email
  * @property $phone
+ * @property trade_name
  * @property $last_purchase
  * @property $total_purchases
  * @property $total_paid
@@ -30,10 +31,11 @@ class Client extends Model
     use SoftDeletes;
 
     static $rules = [
-		'tin_number' => 'required|min:13',
-		'name' => 'required',
-		
-		
+        'tin_number' => 'min:13|unique:clients,tin_number',
+        'trade_name'=>'min:5|unique:clients,trade_name',
+        'name' => 'required',
+        'phone'=>'required|unique:clients,phone',
+        'email'=>'unique:clients,email'
     ];
 
     protected $perPage = 10;
@@ -43,7 +45,7 @@ class Client extends Model
      *
      * @var array
      */
-    protected $fillable = ['tin_number','name','email','phone','last_purchase','total_purchases','total_paid'];
+    protected $fillable = ['tin_number','name','trade_name','email','phone','last_purchase','total_purchases','total_paid'];
 
 
     /**

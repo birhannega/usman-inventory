@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @push('plugin-styles')
-  <!-- {!! Html::style('/assets/plugins/plugin.css') !!} -->
+    <!-- {!!  Html::style('/assets/plugins/plugin.css') !!} -->
 @endpush
 
 @section('content')
@@ -14,47 +14,45 @@
                             <span class="card-title">Show Credit</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('credits.index') }}"> Back</a>
+                            <a class="btn btn-primary"
+                                href="{{ route('credits.index') }}"> Back</a>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        
+
+
                         <div class="form-group">
-                            <strong>Credit Id:</strong>
-                            {{ $credit->credit_id }}
+                            Credited For:
+                            <span class="text-capitalize">{{ $credit->name }}</span>
                         </div>
                         <div class="form-group">
-                            <strong>Creditfor:</strong>
-                            {{ $credit->creditFor }}
+                            Created Date:
+                            {{ $credit->created_at->format('Y-m-d') }}
                         </div>
                         <div class="form-group">
-                            <strong>Createddate:</strong>
-                            {{ $credit->createdDate }}
+                            Item Code:
+                            {{ $credit->ItemName . '(' . $credit->item_code . ')' }}
                         </div>
                         <div class="form-group">
-                            <strong>Item Code:</strong>
-                            {{ $credit->item_code }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Amount:</strong>
+                            Amount:
                             {{ $credit->amount }}
                         </div>
                         <div class="form-group">
-                            <strong>Unitprice:</strong>
+                            Unit Price:
                             {{ $credit->unitPrice }}
                         </div>
                         <div class="form-group">
-                            <strong>Totalprice:</strong>
+                            Total Price:
                             {{ $credit->totalprice }}
                         </div>
                         <div class="form-group">
-                            <strong>Returned:</strong>
-                            {{ $credit->returned }}
+                            Returned:
+                            {{ $credit->returned == 1 ? 'Yes' : 'No' }}
                         </div>
                         <div class="form-group">
-                            <strong>Deleted:</strong>
-                            {{ $credit->deleted }}
+                            Deleted:
+                            {{ $credit->deleted == 1 ? 'Yes' : 'No' }}
                         </div>
 
                     </div>

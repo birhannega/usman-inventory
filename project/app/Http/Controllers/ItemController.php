@@ -27,7 +27,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::paginate();
+        $items = Item::orderby('created_at','desc')->paginate();
 
         return view('item.index', compact('items'))
             ->with('i', (request()->input('page', 1) - 1) * $items->perPage());

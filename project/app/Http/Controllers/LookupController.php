@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lookup;
 use App\Models\LookupType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LookupController
@@ -19,9 +20,26 @@ class LookupController extends Controller
      */
     public function index()
     {
-        $lookups = Lookup::orderBy('lookups.created_at','desc')
-        //->join('lookup_types', 'lookups.lookupId', '=', 'lookup_types.ltId')
+
+
+        $lookups = DB::table('lookups')->orderby('lookups.created_at','desc')
+        ->select(
+        'lookups.description_am',
+        'lookups.description_en',
+        'lookupId',
+        'lookups.created_at',
+        'lookups.lookuptypeId',
+        'lookup_types.description_am as typedescamh',
+        'lookup_types.description_en as typedescen'
+        )
+            ->join('lookup_types', 'lookups.lookuptypeId', '=', 'lookup_types.ltId')
         ->paginate();
+
+
+
+     //   $lookups = Lookup::orderBy('lookups.created_at','desc')
+        //->join('lookup_types', 'lookups.lookupId', '=', 'lookup_types.ltId')
+      //  ->paginate();
         return view('lookup.index', compact('lookups'))
             ->with('i', (request()->input('page', 1) - 1) * $lookups->perPage());
     }

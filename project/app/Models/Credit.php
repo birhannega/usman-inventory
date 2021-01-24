@@ -27,7 +27,7 @@ class Credit extends Model
 		'creditFor' => 'required',
 		'item_code' => 'required',
 		'amount' => 'required',
-		'unitPrice' => 'required',
+	  'unitPrice' => 'required',
 	
     ];
 
@@ -39,6 +39,8 @@ class Credit extends Model
      * @var array
      */
     protected $fillable = ['credit_id','creditFor','createdDate','item_code','amount','unitPrice','totalprice','returned','deleted'];
+    protected $dates = ['created_at'];
+
 
 
 

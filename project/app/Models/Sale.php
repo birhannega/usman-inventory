@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $item_code
  * @property $unit_price
  * @property $amount
- *
+ *@property with_vat
  * @property SoldProduct[] $soldProducts
  * @property Transaction[] $transactions
  * @package App
@@ -28,9 +28,9 @@ class Sale extends Model
     static $rules = [
 		'buyer_name' => 'required',
 		//'total_amount' => 'required',
-		'item_code' => 'required',
-		'unit_price' => 'required',
-		'amount' => 'required',
+		//'item_code' => 'required',
+		//'unit_price' => 'required',
+		//'amount' => 'required',
     ];
 
     protected $perPage = 5;
@@ -40,7 +40,7 @@ class Sale extends Model
      *
      * @var array
      */
-    protected $fillable = ['selled_by','buyer_name','total_amount','item_code','unit_price','amount'];
+    protected $fillable = ['selled_by','with_vat','buyer_name','total_amount','item_code','unit_price','amount'];
 
 
     /**

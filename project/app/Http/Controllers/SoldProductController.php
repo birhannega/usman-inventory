@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SoldProduct;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 /**
@@ -11,16 +12,6 @@ use Illuminate\Http\Request;
  */
 class SoldProductController extends Controller
 {
-      /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -53,12 +44,22 @@ class SoldProductController extends Controller
      */
     public function store(Request $request)
     {
+       
         request()->validate(SoldProduct::$rules);
 
         $soldProduct = SoldProduct::create($request->all());
+        //update current stock and current sale price of an item      
+        $old_item= Item::where('Item_code', $request->product_id)->first();
+        Item::where('Item_code', $request->product_id)->update(
+            [
+                'amount'=> $old_item->amount-$request->qty
+            ]
 
-        return redirect()->route('sold_products.index')
-            ->with('success', 'SoldProduct created successfully.');
+        );
+        //end updating current stock and current sale price of an item
+
+        return redirect()->back()
+            ->with('success', 'Item addedd successfully.');
     }
 
     /**
@@ -100,7 +101,7 @@ class SoldProductController extends Controller
 
         $soldProduct->update($request->all());
 
-        return redirect()->route('sold_products.index')
+        return redirect()->route('sold-products.index')
             ->with('success', 'SoldProduct updated successfully');
     }
 
@@ -111,9 +112,9 @@ class SoldProductController extends Controller
      */
     public function destroy($id)
     {
-        $soldProduct = SoldProduct::find($id)->delete();
+        $soldProduct = SoldProduct::where('id','=',$id)->delete();
 
-        return redirect()->route('sold_products.index')
+        return redirect()->back()
             ->with('success', 'SoldProduct deleted successfully');
     }
 }

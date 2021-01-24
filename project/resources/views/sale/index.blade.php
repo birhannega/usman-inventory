@@ -15,11 +15,13 @@
                                 {{ __('Sale') }}
                             </span>
 
-                             <div class="float-right">
-                                <a href="{{ route('sales.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                            <div class="float-right">
+                                <a href="{{ route('sales.create') }}"
+                                    class="btn btn-primary btn-sm float-right"
+                                    data-placement="left">
+                                    {{ __('Create New') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -33,34 +35,42 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        
-										<th>Selled By</th>
-										<th>Buyer Name</th>
-										<th>Total Amount</th>
-										<th>Item Code</th>
-										<th>Unit Price</th>
-										<th>Amount</th>
 
+                                        {{-- <th>Seller</th> --}}
+                                        <th>Buyer Name</th>
+                                        <th>Total price</th>
+                                        <th>with vat?</th>
+                                        <th>Before VAT</th>
+                                        <th>calculated vat</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($sales as $sale)
                                         <tr>
-                                            
-											<td>{{ $sale->selled_by }}</td>
-											<td>{{ $sale->buyer_name }}</td>
-											<td>{{ $sale->total_amount }}</td>
-											<td>{{ $sale->item_code }}</td>
-											<td>{{ $sale->unit_price }}</td>
-											<td>{{ $sale->amount }}</td>
+
+                                            {{-- <td>{{ $sale->name }}</td>
+                                            --}}
+                                            <td>{{ $sale->buyer_name }}</td>
+                                            <td>{{ $sale->total_paid }}</td>
+                                            <td>{{ $sale->with_vat == 1 ? 'Yes' : 'No' }}</td>
+                                            <td>{{ $sale->before_vat }}</td>
+                                            <td>{{ $sale->calculated_vat }}</td>
 
                                             <td>
-                                                <form action="{{ route('sales.destroy',$sale->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('sales.show',$sale->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('sales.edit',$sale->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                   {{ @csrf_field()}}
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="mdi mdi-delete"></i> Delete</button>
+                                                <form action="{{ route('sales.destroy', $sale->id) }}"
+                                                    method="POST">
+                                                    <a class="btn btn-sm btn-primary "
+                                                        href="{{ route('sales.show', $sale->id) }}"><i
+                                                            class="fa fa-fw fa-eye"></i> view Attachment</a>
+                                                    {{-- <a class="btn btn-sm btn-success"
+                                                        href="{{ route('sales.edit', $sale->id) }}"><i
+                                                            class="fa fa-fw fa-edit"></i> Edit</a>
+                                                    --}}
+                                                    {{ @csrf_field() }}
+                                                    {{-- <button type="submit"
+                                                        class="btn btn-danger btn-sm"><i class="mdi mdi-delete"></i>
+                                                        Delete</button> --}}
                                                 </form>
                                             </td>
                                         </tr>
@@ -70,7 +80,10 @@
                         </div>
                     </div>
                 </div>
-                {!! $sales->links() !!}
+                <div class="py-2">
+                    {!! $sales->links('pagination::bootstrap-4') !!}
+                </div>
+              
             </div>
         </div>
     </div>

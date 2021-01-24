@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\Credit;
 use App\Models\Item;
+use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CreditController
@@ -29,9 +31,21 @@ class CreditController extends Controller
      */
     public function index()
     {
-        $credits = Credit::orderBy('created_at','desc')->paginate();
+        $credits = Db::table('Credits')
+        ->select('clients.name as creditFor',
+        'Credits.created_at',
+        'Credits.amount',
+        'Credits.unitPrice',
+        'Credits.totalprice',
+        'credit_id',
+        'items.ItemName as item_code')
+        ->join('clients', 'clients.id', '=', 'Credits.creditFor')
+        ->join('items', 'items.Item_code', '=', 'Credits.item_code')
+        -> orderBy('Credits.created_at','desc')
+        ->where('Credits.deleted',0)->paginate();
+        $items=Item::all();
 
-        return view('credit.index', compact('credits'))
+        return view('credit.index', compact('credits','items'))
             ->with('i', (request()->input('page', 1) - 1) * $credits->perPage());
     }
 
@@ -44,7 +58,10 @@ class CreditController extends Controller
     {
         $credit = new Credit();
         $items=Item::all();
-        return view('credit.create', compact('credit','items'));
+        $clients=Client::all();
+
+
+        return view('credit.create', compact('credit','items','clients'));
     }
 
     /**
@@ -55,8 +72,9 @@ class CreditController extends Controller
      */
     public function store(Request $request)
     {
+      //  return $request;
         $credit= new credit();
-        request()->validate(Credit::$rules);
+      request()->validate(Credit::$rules);
         $data= $request->all();
         $credit->amount=$request->amount;
         $credit->unitPrice=$request->unitPrice;
@@ -84,9 +102,27 @@ class CreditController extends Controller
     public function show($id)
     {
         //$credit = Credit::find($id);
-        $credit=Credit::where('credit_id',"=", $id)->first();
+        $credit=Credit::where('credit_id',"=", $id)
+        ->join('clients', 'clients.id', '=', 'Credits.creditFor')
+        ->join('items', 'items.Item_code', '=', 'Credits.item_code')
+       ->select(
+           'credit_id',
+           'credits.amount',
+           'credits.item_code',
+           'clients.name',
+           'clients.trade_name',
+           'ItemName',
+           'credits.unitPrice',
+           'credits.totalprice',
+           'returned',
+           'credits.created_at',
+           'credits.created_user_id'
 
-        return view('credit.show', compact('credit'));
+       )
+        ->first();
+        //return $credit;
+
+    return view('credit.show', compact('credit'));
     }
 
     /**
@@ -97,9 +133,31 @@ class CreditController extends Controller
      */
     public function edit($id)
     {
-        $credit = Credit::find($id);
+       // $credit = Credit::find($id);
+       $items=Item::all();
+        $credit=Credit::where('credit_id',"=", $id)->first();
+        return view('credit.edit', compact('credit','items'));
+    }
 
-        return view('credit.edit', compact('credit'));
+    public function search(Request $request){
+           /// return $request;
+            $endDate= $request->endDate;
+            $start= $request->startDate;
+            $item= $request->item_code;
+            $client=$request->client;
+            $credits = DB::table('credits')->orderby('created_at','desc')
+            ->where('item_code',"=", $item)
+            ->where('deleted',0)
+        //    ->wherNotNull('created_at',">=", $start)
+        //    ->wherNotNull('created_at',"<=", $endDate)
+            ->Paginate();
+            $items=Item::all();
+
+            return view('credit.index', compact('credits','items'))
+                ->with('i', (request()->input('page', 1) - 1) * $credits->perPage());
+
+
+
     }
 
     /**
@@ -126,7 +184,10 @@ class CreditController extends Controller
      */
     public function destroy($id)
     {
-        $credit = Credit::find($id)->delete();
+        $credit = Credit::where('credit_id','=',$id)->update([
+            'deleted'=>1,
+            'deleted_at'=>now()
+        ]);
 
         return redirect()->route('credits.index')
             ->with('success', 'Credit deleted successfully');

@@ -26,7 +26,11 @@ Route::get('/','Auth\LoginController@showLoginForm')->name('login');
  Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm');
  Route::post('password/reset','Auth\ResetPasswordController@reset');
 
-
+ Route::get('set-locale/{locale}', function ($locale) {
+    App::setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->middleware('setLocale')->name('locale.setting');
 
  Route::group(['prefix' => 'settings'], function(){
     Route::get('about','AboutController@index');
@@ -118,6 +122,7 @@ Route::group(['prefix' => 'credit'], function(){
     Route::get('/create', 'CreditController@create')->name('credits.create');
     Route::get('/show/{id}', 'CreditController@show')->name('credits.show');
     Route::get('/edit/{id}', 'CreditController@edit')->name('credits.edit');
+    Route::post('/search', 'CreditController@search')->name('credits.search');
 
     Route::post('/destroy/{id}', 'CreditController@destroy')->name('credits.destroy');
     Route::post('/store', 'CreditController@store')->name('credits.store');
@@ -131,12 +136,27 @@ Route::group(['prefix' => 'proforma'], function(){
     Route::get('/', 'ProformaController@index')->name('proformas.index');
     Route::get('/list', 'ProformaController@index')->name('proformas.index');
     Route::get('/create', 'ProformaController@create')->name('proformas.create');
+    Route::get('/create/{id}', 'ProformaController@create')->name('proformas.complete');
     Route::get('/show/{id}', 'ProformaController@show')->name('proformas.show');
     Route::get('/edit/{id}', 'ProformaController@edit')->name('proformas.edit');
 
     Route::post('/destroy/{id}', 'ProformaController@destroy')->name('proformas.destroy');
     Route::post('/store', 'ProformaController@store')->name('proformas.store');
     Route::patch('/update/{id}', 'ProformaController@update')->name('proformas.update');
+    Route::patch('/finish/{id}', 'ProformaController@finish')->name('proformas.finish');
+
+});
+Route::group(['prefix' => 'proforma-items'], function(){
+    Route::get('/', 'ProformaItemController@index')->name('proforma-items.index');
+    Route::get('/list', 'ProformaItemController@index')->name('proforma-items.index');
+    Route::get('/create', 'ProformaItemController@create')->name('proforma-items.create');
+    Route::get('/create/{id}', 'ProformaItemController@create')->name('proforma-items.complete');
+    Route::get('/show/{id}', 'ProformaItemController@show')->name('proforma-items.show');
+    Route::get('/edit/{id}', 'ProformaItemController@edit')->name('proforma-items.edit');
+
+    Route::post('/destroy/{id}', 'ProformaItemController@destroy')->name('proforma-items.destroy');
+    Route::post('/store', 'ProformaItemController@store')->name('proforma-items.store');
+    Route::patch('/update/{id}', 'ProformaItemController@update')->name('proforma-items.update');
 });
 
 Route::get('invoice', function () { return view('pages.attachment.invoice'); });
@@ -152,6 +172,7 @@ Route::group(['prefix' => 'expense'], function(){
     Route::get('/edit/{id}', 'ExpenseController@edit')->name('expenses.edit');
 
     Route::post('/destroy/{id}', 'ExpenseController@destroy')->name('expenses.destroy');
+    Route::post('/filter', 'ExpenseController@filter')->name('expenses.filter');
     Route::post('/store', 'ExpenseController@store')->name('expenses.store');
     Route::patch('/update/{id}', 'ExpenseController@update')->name('expenses.update');
 });
@@ -161,6 +182,7 @@ Route::group(['prefix' => 'sales'], function(){
     Route::get('/', 'SaleController@index')->name('sales.index');
     Route::get('/list', 'SaleController@index')->name('sales.index');
     Route::get('/create', 'SaleController@create')->name('sales.create');
+    Route::get('/create/{id}', 'SaleController@create')->name('sales.complete');
     Route::get('/show/{id}', 'SaleController@show')->name('sales.show');
     Route::get('/edit/{id}', 'SaleController@edit')->name('sales.edit');
 
@@ -168,7 +190,18 @@ Route::group(['prefix' => 'sales'], function(){
     Route::post('/store', 'SaleController@store')->name('sales.store');
     Route::patch('/update/{id}', 'SaleController@update')->name('sales.update');
 });
+Route::group(['prefix' => 'sold-products'], function(){
+    Route::get('/', 'SoldProductController@index')->name('sold_products.index');
+    Route::get('/list', 'SoldProductController@index')->name('sold_products.index');
+    Route::get('/create', 'SoldProductController@create')->name('sold_products.create');
+    Route::get('/create/{id}', 'SoldProductController@create')->name('sold_products.complete');
+    Route::get('/show/{id}', 'SoldProductController@show')->name('sold_products.show');
+    Route::get('/edit/{id}', 'SoldProductController@edit')->name('sold_products.edit');
 
+    Route::post('/destroy/{id}', 'SoldProductController@destroy')->name('sold_products.destroy');
+    Route::post('/store', 'SoldProductController@store')->name('soldproducts.store');
+    Route::patch('/update/{id}', 'SoldProductController@update')->name('sold-products.update');
+});
 
 
 Route::group(['prefix' => 'lookuptype'], function(){

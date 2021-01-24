@@ -21,7 +21,6 @@ class LookupType extends Model
 {
     
     static $rules = [
-		'ltId' => 'required',
 		'description_am' => 'required',
 		'description_en' => 'required',
     ];

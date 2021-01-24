@@ -15,11 +15,13 @@
                                 {{ __('Client') }}
                             </span>
 
-                             <div class="float-right">
-                                <a href="{{ route('clients.create') }}" class="btn btn-light"  data-placement="left">
-                                  {{ __('Create New') }}
+                            <div class="float-right">
+                                <a href="{{ route('clients.create') }}"
+                                    class="btn btn-light"
+                                    data-placement="left">
+                                    {{ __('Create New') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -33,12 +35,11 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        
-										<th>Tin Number</th>
-										<th>Name</th>
-										<th>Email</th>
-										<th>Phone</th>
-										
+                                        <th>Trade name</th>
+                                        <th>Tin Number</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+
 
                                         <th></th>
                                     </tr>
@@ -46,20 +47,24 @@
                                 <tbody>
                                     @foreach ($clients as $client)
                                         <tr>
-                                            
-											<td>{{ $client->tin_number }}</td>
-											<td>{{ $client->name }}</td>
-											<td>{{ $client->email }}</td>
-											<td>{{ $client->phone }}</td>
-											
-
+                                            <td>{{ $client->trade_name }}</td>
+                                            <td>{{ $client->tin_number }}</td>
+                                            <td>{{ $client->name }}</td>
+                                            <td>{{ $client->phone }}</td>
                                             <td>
-                                                <form action="{{ route('clients.destroy',$client->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('clients.show',$client->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('clients.edit',$client->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    {{@csrf_field()}}
-                                                 
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                                <form action="{{ route('clients.destroy', $client->id) }}"
+                                                    method="POST">
+                                                    <a class="btn btn-sm btn-primary "
+                                                        href="{{ route('clients.show', $client->id) }}"><i
+                                                            class="fa fa-fw fa-eye"></i> Show</a>
+                                                    <a class="btn btn-sm btn-success"
+                                                        href="{{ route('clients.edit', $client->id) }}"><i
+                                                            class="fa fa-fw fa-edit"></i> Edit</a>
+                                                    {{ @csrf_field() }}
+
+                                                    <button type="submit"
+                                                        class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i>
+                                                        Delete</button>
                                                 </form>
                                             </td>
                                         </tr>

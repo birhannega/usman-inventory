@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 /**
  * Class ExpenseController
@@ -17,6 +19,14 @@ class ExpenseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        $expenses = Expense::Where('deleted',0)->orderby('created_at','desc')->paginate();
+       $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today()->toDateString())->sum('exp_amount');
+        return view('expense.index', compact('expenses','today_expenses','curentDate'))
+            ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
+    }
+
+    public function filter(Request $request)
     {
         $expenses = Expense::Where('deleted',0)->orderby('created_at','desc')->paginate();
 

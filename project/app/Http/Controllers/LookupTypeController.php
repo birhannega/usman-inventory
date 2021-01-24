@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LookupType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class LookupTypeController
@@ -11,8 +12,8 @@ use Illuminate\Http\Request;
  */
 class LookupTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    /** `       `
+     * Display a listing of the lookup.
      *
      * @return \Illuminate\Http\Response
      */

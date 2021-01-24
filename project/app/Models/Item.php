@@ -30,7 +30,7 @@ class Item extends Model
 		'amount' => 'required',
     ];
 
-    protected $perPage = 10;
+    protected $perPage = 5;
 
     /**
      * Attributes that should be mass-assignable.

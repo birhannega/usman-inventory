@@ -25,7 +25,7 @@ class Expense extends Model
 		'exp_reason' => 'required',
     ];
 
-    protected $perPage = 20;
+    protected $perPage = 5;
 
     /**
      * Attributes that should be mass-assignable.

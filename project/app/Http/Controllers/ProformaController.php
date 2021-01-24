@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proforma;
+use App\Models\ProformaItem;
+use App\Models\Item;
 use Illuminate\Http\Request;
+use Auth;
 
 /**
  * Class ProformaController
@@ -38,10 +41,32 @@ class ProformaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id=false)
     {
         $proforma = new Proforma();
-        return view('proforma.create', compact('proforma'));
+        $items= Item::where('amount','>',1)->get();
+        $selected = Item::where('amount','>',1)->first()->Item_code;
+        $grandtotal = ProformaItem::where('p_id','=',$id)->sum('total_price');
+
+        $proformaItems = ProformaItem::where('p_id','=',$id)
+        ->select(
+            'proforma_items.id',
+            'proforma_items.amount',
+            'proforma_items.Item_code',
+            'items.ItemName',
+            'items.unit',
+            'unit_price',
+            'total_price',
+            'createdby',
+            'proforma_items.created_at',
+            'p_id'
+        )
+        ->join('items', 'items.Item_code', '=', 'proforma_items.Item_code')
+        ->paginate();
+
+
+        $proforma_drafted=Proforma::where('p_id',"=", $id)->first();
+        return view('proforma.create', compact('proforma','proforma_drafted','items','selected','proformaItems','grandtotal'));
     }
 
     /**
@@ -52,12 +77,29 @@ class ProformaController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Proforma::$rules);
-
-        $new_proforma = Proforma::create($request->all());
+       // request()->validate(Proforma::$rules);
+     //  return $request;
+        $proforma= new Proforma();
+        $proforma->p_to=$request->p_to;
+        $proforma->ref_number=$request->ref_number;
+        $proforma->p_valid_for=$request->p_valid_for;
+        $proforma->p_delivery_date=$request->p_delivery_date;
+        $proforma->p_to=$request->p_to;
+        $proforma->created_at= now();
+        $proforma->save();
+        $id= $proforma->id;
+        $items= Item::all();
+        $selected = Item::first()->Item_code;
+         return redirect()->route('proformas.complete', $id)->with(array(
+             [
+                 'id'=>$id,
+                'success'=>'Sale created',
+              'items'=>$items]));
      
-         return redirect()->route('proformas.index')
-             ->with('success', 'Proforma created successfully.');
+
+
+        //  return redirect()->route('proformas.index')
+        //      ->with('success', 'Proforma created successfully.');
     }
 
     /**
@@ -110,9 +152,25 @@ class ProformaController extends Controller
      */
     public function destroy($id)
     {
-        $proforma=Proforma::where('p_id',"=", $id)->first();
+        $proforma=Proforma::where('p_id',"=", $id)->delete();
 
         return redirect()->route('proformas.index')
             ->with('success', 'Proforma deleted successfully');
+    }
+     public function finish( $id)
+    {
+        $grandtotal = ProformaItem::where('p_id','=',$id)->sum('total_price');
+
+        Proforma::where('p_id',"=", $id)->update([
+            'completed'=>1,
+            'p_grand_total'=> $grandtotal+0.15*$grandtotal,
+            'p_before_vat'=>$grandtotal,
+            'p_created_user_id'=>Auth::User()->id,
+            'p_total'=>$grandtotal
+
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Proforma updated successfully');
     }
 }

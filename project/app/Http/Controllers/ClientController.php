@@ -27,7 +27,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate();
+        $clients = Client::orderby('created_at','desc')->where('deleted',0)->paginate();
 
         return view('client.index', compact('clients'))
             ->with('i', (request()->input('page', 1) - 1) * $clients->perPage());
@@ -110,7 +110,11 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $client = Client::find($id)->delete();
+        $curdatedate=now();
+        $client = Client::where('id','=',$id)->update([
+            'deleted'=>1,
+            'deleted_at'=>$curdatedate
+        ]);
 
         return redirect()->route('clients.index')
             ->with('success', 'Client deleted successfully');

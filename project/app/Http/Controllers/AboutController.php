@@ -22,7 +22,8 @@ class AboutController extends Controller
      */
     public function index()
     {
-        return view('pages.company.about');
+        $address=[];
+        return view('pages.company.about',compact('address'));
     }
 
     /**

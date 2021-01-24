@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Item;
+use App\Models\Sale;
+use App\Models\Expense;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $items = Item::where('deleted',0)->count();
+        $sales = Sale::count();
+        $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today()->toDateString())->sum('exp_amount');
+
+
+        return view('home', compact('items','sales','today_expenses'));
     }
 }

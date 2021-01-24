@@ -50,12 +50,12 @@
                                             
 											<td>{{ $lookup->description_am }}</td>
 											<td>{{ $lookup->description_en }}</td>
-											<td>{{ $lookup->lookuptypeId }}</td>
+											<td>{{ $lookup->typedescamh }}</td>
 
                                             <td>
-                                                <form action="{{ route('lookups.destroy',$lookup->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('lookups.show',$lookup->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('lookups.edit',$lookup->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                                <form action="{{ route('lookups.destroy',$lookup->lookupId) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('lookups.show',$lookup->lookupId) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('lookups.edit',$lookup->lookupId) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                                     {{@csrf_field()}}
                                                   
                                                     <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
