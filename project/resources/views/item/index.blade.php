@@ -18,6 +18,8 @@
                             href="{{ route('items.create') }}"> Add new</a>
                     </div>
 
+                 
+
                 </div>
                 @if ($message = Session::get('success'))
                     <div class="pt-2 alert alert-success">
@@ -27,21 +29,21 @@
 
                 <div class="card-body">
                     <div class="container">
-                        <form action=""
-                            method="POST">
+                        <form href="{{ route('items.index') }}"
+                            method="get">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <input type="text"
                                         class="form-control"
                                         name="itemname"
                                         id="itemname"
                                         placeholder="Enter Item name">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <input type="text"
                                         class="form-control"
-                                        name="code"
-                                        id="code"
+                                        name="itemcode"
+                                        id="item code"
                                         placeholder="Enter Item code">
                                 </div>
 
@@ -89,6 +91,7 @@
                                         <td>{{ $item->current_price }}</td>
 
                                         <td>
+                                            {{-- <label class="badge badge-danger">Pending</label> --}}
                                             <div class="progress">
                                                 <div role="progressbar"
                                                     aria-valuenow="75"

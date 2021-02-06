@@ -30,7 +30,7 @@ class ProformaController extends Controller
      */
     public function index()
     {
-        $proformas = Proforma::paginate();
+        $proformas = Proforma::orderby('created_at','desc')->paginate();
 
         return view('proforma.index', compact('proformas'))
             ->with('i', (request()->input('page', 1) - 1) * $proformas->perPage());
@@ -44,9 +44,12 @@ class ProformaController extends Controller
     public function create($id=false)
     {
         $proforma = new Proforma();
-        $items= Item::where('amount','>',1)->get();
+        $items= Item::orderby('ItemName','asc')->get();
         $selected = Item::where('amount','>',1)->first()->Item_code;
         $grandtotal = ProformaItem::where('p_id','=',$id)->sum('total_price');
+        $last_pfnumber=Proforma::orderby('p_id','desc')->first()->proforma_number;
+        //DB::table('proformas')->latest('created_at')->first();
+        
 
         $proformaItems = ProformaItem::where('p_id','=',$id)
         ->select(
@@ -66,7 +69,7 @@ class ProformaController extends Controller
 
 
         $proforma_drafted=Proforma::where('p_id',"=", $id)->first();
-        return view('proforma.create', compact('proforma','proforma_drafted','items','selected','proformaItems','grandtotal'));
+        return view('proforma.create', compact('proforma','proforma_drafted','items','selected','proformaItems','last_pfnumber','grandtotal'));
     }
 
     /**
@@ -77,8 +80,7 @@ class ProformaController extends Controller
      */
     public function store(Request $request)
     {
-       // request()->validate(Proforma::$rules);
-     //  return $request;
+        request()->validate(Proforma::$rules);
         $proforma= new Proforma();
         $proforma->p_to=$request->p_to;
         $proforma->ref_number=$request->ref_number;
@@ -86,6 +88,7 @@ class ProformaController extends Controller
         $proforma->p_delivery_date=$request->p_delivery_date;
         $proforma->p_to=$request->p_to;
         $proforma->created_at= now();
+        $proforma->proforma_number=$request->proforma_number;
         $proforma->save();
         $id= $proforma->id;
         $items= Item::all();
@@ -99,7 +102,7 @@ class ProformaController extends Controller
 
 
         //  return redirect()->route('proformas.index')
-        //      ->with('success', 'Proforma created successfully.');
+        //      ->with('success', 'Proforma created successfully.')
     }
 
     /**

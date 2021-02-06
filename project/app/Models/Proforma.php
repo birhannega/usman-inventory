@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $p_created_user_id
  * @property $p_updated_user_id
  * @property $p_deleted
- * @property $p_is_template
+ * @property $proforma_number
  *
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -33,7 +33,8 @@ class Proforma extends Model
 		'p_to' => 'required',
 		'ref_number' => 'required',
 		'p_valid_for' => 'required',
-		'p_delivery_date'=>'required'
+    'p_delivery_date'=>'required',
+    'proforma_number'=>'required||unique:proformas,proforma_number'
     ];
 
     protected $perPage = 5;
@@ -43,8 +44,8 @@ class Proforma extends Model
      *
      * @var array
      */
-    protected $fillable = ['p_id','p_to','p_date','ref_number','p_valid_for','p_before_vat','p_delivery_date','p_total','p_grand_total','p_created_date','p_updated_date','p_created_user_id','p_updated_user_id','p_deleted','p_is_template'];
+    protected $fillable = ['p_id','p_to','proforma_number','p_date','ref_number','p_valid_for','p_before_vat','p_delivery_date','p_total','p_grand_total','p_created_date','p_updated_date','p_created_user_id','p_updated_user_id','p_deleted','p_is_template'];
 
-
+protected $dates=['p_date'];
 
 }

@@ -11,7 +11,8 @@
                      <option>Select Item</option>
          
                      @foreach ($items as $item)
-                     <option value="{{ $item->Item_code }}" {{ ( $item->Item_code == $selected) ? 'selected' : '' }}> {{ $item->ItemName }} </option>
+                     <option value="{{ $item->Item_code }}" 
+                      {{ ( $item->Item_code == $selected) ? 'selected' : '' }}> {{ $item->ItemName.'('.$item->Item_code.')' }} </option>
                      @endforeach  
                    </select> 
                      {!! $errors->first('ItemCode', '<div class="invalid-feedback">:message</p>') !!}
@@ -32,7 +33,10 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('Sale Price') }}
-                    {{ Form::number('sale_price', $inventory->sale_price, ['class' => 'form-control' . ($errors->has('sale_price') ? ' is-invalid' : ''), 'placeholder' => 'Unitprice']) }}
+                    {{ Form::number('sale_price', $inventory->sale_price, ['class' => 'form-control' . ($errors->has('sale_price') ? ' is-invalid' : ''), 
+                    'placeholder' => 'Unitprice',
+                    'step'=>'0.01'
+                    ]) }}
                     {!! $errors->first('sale_price', '<div class="invalid-feedback">:message</p>') !!}
                 </div>
                 <div class="form-group row">

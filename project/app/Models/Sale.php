@@ -27,7 +27,7 @@ class Sale extends Model
     
     static $rules = [
 		'buyer_name' => 'required',
-		//'total_amount' => 'required',
+		'receipt_no' => 'required|unique:sales,receipt_no',
 		//'item_code' => 'required',
 		//'unit_price' => 'required',
 		//'amount' => 'required',
@@ -40,7 +40,7 @@ class Sale extends Model
      *
      * @var array
      */
-    protected $fillable = ['selled_by','with_vat','buyer_name','total_amount','item_code','unit_price','amount'];
+    protected $fillable = ['selled_by','with_vat','buyer_name','total_amount','receipt_no','item_code','unit_price','amount'];
 
 
     /**

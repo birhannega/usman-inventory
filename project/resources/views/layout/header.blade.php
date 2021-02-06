@@ -23,19 +23,21 @@
                     <i class="flag-icon flag-icon-us"></i>
                   </div>
                 </div>
-                <span class="profile-text font-weight-medium d-none d-md-block">{{Config::get("app.locale")}} </span>
+                <span class="profile-text font-weight-medium d-none d-md-block">
+                  {{__('lang.'.Config::get("app.locale"))}}
+                </span>
               </a>
               <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2 " 
               aria-labelledby="LanguageDropdown">
                 <a  href="{{ route('locale.setting', 'en') }}" class="dropdown-item">
                   <div class="flag-icon-holder">
                     <i class="flag-icon flag-icon-us"></i>
-                  </div>English
+                  </div> {{__('lang.english')}}
                 </a>
                 <a  href="{{ route('locale.setting', 'am') }}" class="dropdown-item">
                   <div class="flag-icon-holder">
                     <i class="flag-icon flag-icon-fr"></i>
-                  </div>Amharic
+                  </div>{{__('lang.amharic')}}
                 </a>
               
       

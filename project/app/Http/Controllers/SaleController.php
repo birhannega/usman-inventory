@@ -80,6 +80,11 @@ class SaleController extends Controller
         $sale->buyer_worda=$request->buyer_worda;
         $sale->buyer_kebele=$request->buyer_kebele;
         $sale->buyer_house_no=$request->buyer_house_no;
+        $sale->reference_no=$request->reference_no;
+        $sale->fs_number=$request->fs_number;
+        $sale->receipt_no=$request->receipt_no;
+
+
 
 
         $sale->save();

@@ -191,14 +191,22 @@ Route::group(['prefix' => 'sales'], function(){
     Route::patch('/update/{id}', 'SaleController@update')->name('sales.update');
 });
 Route::group(['prefix' => 'sold-products'], function(){
-    Route::get('/', 'SoldProductController@index')->name('sold_products.index');
-    Route::get('/list', 'SoldProductController@index')->name('sold_products.index');
-    Route::get('/create', 'SoldProductController@create')->name('sold_products.create');
+     Route::get('/', 'SoldProductController@index')->name('sold_products.index');
+   // Route::get('/list', 'SoldProductController@index')->name('sold_products.index');
+    Route::get('/create', 'SoldProductController@create')->name('sold-products.create');
     Route::get('/create/{id}', 'SoldProductController@create')->name('sold_products.complete');
-    Route::get('/show/{id}', 'SoldProductController@show')->name('sold_products.show');
-    Route::get('/edit/{id}', 'SoldProductController@edit')->name('sold_products.edit');
+    Route::get('/show/{id}', 'SoldProductController@show')->name('sold-products.show');
+    //Route::get('/show/{id}', 'SoldProductController@show')->name('sold_products.show');
+
+   // Route::get('/edit/{id}', 'SoldProductController@edit')->name('sold_products.edit');
+    Route::get('/edit/{id}', 'SoldProductController@edit')->name('sold-products.edit');
+
 
     Route::post('/destroy/{id}', 'SoldProductController@destroy')->name('sold_products.destroy');
+    Route::post('/destroy/{id}', 'SoldProductController@destroy')->name('sold-products.destroy');
+
+    
+
     Route::post('/store', 'SoldProductController@store')->name('soldproducts.store');
     Route::patch('/update/{id}', 'SoldProductController@update')->name('sold-products.update');
 });
@@ -369,4 +377,21 @@ Route::any('/{page?}',function(){
     return View::make('pages.error-pages.error-404');
 })->where('page','.*');
 Auth::routes();
+// // Authentication Routes...
+// $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+// $this->post('login', 'Auth\LoginController@login');
+// $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// // Registration Routes...
+// $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+// $this->post('register', 'Auth\RegisterController@register');
+
+// // Password reset link request routes...
+// Route::get('password/email', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.email');
+// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+
+// // Password reset routes...
+// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.request');
+// Route::post('password/reset', 'Auth\ResetPasswordController@postReset')->name('password.reset');
+
 

@@ -32,13 +32,13 @@ class CreditController extends Controller
     public function index()
     {
         $credits = Db::table('Credits')
-        ->select('clients.name as creditFor',
+        ->select('clients.name as creditFor','clients.trade_name',
         'Credits.created_at',
         'Credits.amount',
         'Credits.unitPrice',
         'Credits.totalprice',
         'credit_id',
-        'items.ItemName as item_code')
+        'items.ItemName', 'Credits.item_code')
         ->join('clients', 'clients.id', '=', 'Credits.creditFor')
         ->join('items', 'items.Item_code', '=', 'Credits.item_code')
         -> orderBy('Credits.created_at','desc')

@@ -6,6 +6,66 @@
 
 @section('content')
     <div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+            <div class="card  card-statistics">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap justify-content-between align-items-md-center justify-content-xl-between">
+                <div class="float-left">
+                    <i class="mdi mdi-cash-usd icon-lg"></i>
+                </div>
+                <div class="float-right">
+                    <p class="mb-0 text-right">Total Expenses today</p>
+                    <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0">{{$today_expenses}}</h3>
+                    </div>
+                </div>
+                </div>
+            
+            </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+            <div class="card  card-statistics">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap justify-content-between align-items-md-center justify-content-xl-between">
+                <div class="float-left">
+                    <i class="mdi mdi-cash-usd icon-lg"></i>
+                </div>
+                <div class="float-right">
+                    <p class="mb-0 text-right">Weekly total expense</p>
+                    <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0">{{$weekly_expenses}}</h3>
+                    </div>
+                </div>
+                </div>
+            
+            </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 grid-margin stretch-card">
+            <div class="card  card-statistics">
+            <div class="card-body">
+                <div class="d-flex flex-md-column flex-xl-row flex-wrap justify-content-between align-items-md-center justify-content-xl-between">
+                <div class="float-left">
+                    <i class="mdi mdi-cash-usd icon-lg"></i>
+                </div>
+                <div class="float-right">
+                    <p class="mb-0 text-right">Total Expenses this month</p>
+                    <div class="fluid-container">
+                    <h3 class="font-weight-medium text-right mb-0">{{$monthly_expenses}}</h3>
+                    </div>
+                </div>
+                </div>
+            
+            </div>
+            </div>
+        </div>
+  </div>
+
+
+
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -102,9 +162,9 @@
                                                         href="{{ route('expenses.edit', $expense->exp_id) }}"><i
                                                             class="fa fa-fw fa-edit"></i> Edit</a>
                                                     {{ @csrf_field() }}
-                                                    {{-- <button type="submit"
+                                                    <button type="submit"
                                                         class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i>
-                                                        Delete</button> --}}
+                                                        Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -120,21 +180,6 @@
                 </div>
 
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                  
-                <div class="card-header bg-green">
-                    Today summary
-                </div>
-                <div class="card-body">
-                  <span class="text-capitalize">  total expense today : </span>
-                    {{$today_expenses}}
-                  
-                </div>
-            </div>
-                </div>
         </div>
     </div>
 @endsection

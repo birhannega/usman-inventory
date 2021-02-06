@@ -2,9 +2,9 @@
     id="sidebar">
     <ul class="nav bg-light">
 
-        <li class="nav-item {{ active_class(['/']) }}">
+        <li class="nav-item {{ active_class(['/home']) }}">
             <a class="nav-link"
-                href="{{ url('/') }}">
+                href="{{ url('/home') }}">
                 <i class="menu-icon mdi mdi-television"></i>
                 <span class="menu-title">{{ __('lang.dashboard') }}</span>
             </a>
@@ -18,7 +18,7 @@
                 <span class="menu-title">{{ __('lang.items') }}</span>
             </a>
         </li>
-        <li class="nav-item {{ active_class(['proforma']) }}">
+        <li class="nav-item {{ active_class(['proforma/list']) }}">
             <a class="nav-link"
                 href="{{ url('/proforma/list') }}">
                 <i class="menu-icon mdi mdi-newspaper"></i>
@@ -59,6 +59,13 @@
                 href="{{ url('/sales') }}">
                 <i class="menu-icon mdi mdi-playlist-plus"></i>
                 <span class="menu-title">{{ __('lang.sales') }} </span>
+            </a>
+        </li>
+        <li class="nav-item {{ active_class(['sold_products']) }}">
+            <a class="nav-link"
+                href="{{ route('sold_products.index') }}">
+                <i class="menu-icon mdi mdi-playlist-plus"></i>
+                <span class="menu-title">{{ __('lang.sold items') }} </span>
             </a>
         </li>
         <li class="nav-item {{ active_class(['expense']) }}">

@@ -168,7 +168,7 @@
                                                             @foreach ($items as $item)
                                                                 <option value="{{ $item->Item_code }}"
                                                                     {{ $item->Item_code == $selected ? 'selected' : '' }}>
-                                                                    {{ $item->ItemName }}
+                                                                    {{ $item->ItemName.'('.$item->Item_code.')' }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -184,6 +184,7 @@
                                                                 name="price"
                                                                 onchange="OnPriceChange()"
                                                                 id="unit_price"
+                                                                step='0.01'
                                                                 placeholder="Enter unit price" />
 
                                                         </div>
@@ -243,6 +244,20 @@
                                                 class="form-control">
                                         </div>
                                         <div class="col-md-4">
+                                            <label for="Description">Fs number</label>
+                                            <input name="fs_number"
+                                               value=" {{ !empty($started_sale[0]) ? $started_sale[0]->fs_number : '' }}"
+                                                class="form-control"/>
+                                           
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="Description">buyer tin number</label>
+                                            <input name="reference_no"
+                                               value=" {{ !empty($started_sale[0]) ? $started_sale[0]->reference_no : '' }}"
+                                                class="form-control"/>
+                                           
+                                        </div>
+                                        <div class="col-md-4">
                                             <label for="Description">Description</label>
                                             <input name="remark"
                                                value=" {{ !empty($started_sale[0]) ? $started_sale[0]->remark : '' }}"
@@ -272,7 +287,10 @@
                                                 <label for="buyer_kebele"> kebele</label>
                                                 <input class="form-control" type="text" name="buyer_kebele" id="buyer_kebele">
                                             </div>
-                                   
+                                            <div class="col-md-4">
+                                                <label for="receipt_no"> receipt no</label>
+                                                <input class="form-control" type="text" name="receipt_no" id="receipt_no">
+                                            </div>
 
                                             
                                         <div class="col-md-8 mt-3 py-3">

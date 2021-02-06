@@ -3,7 +3,8 @@
     
         <div class="form-group">
             {{ Form::label('Amount') }}
-            {{ Form::text('exp_amount', $expense->exp_amount, ['class' => 'form-control' . ($errors->has('exp_amount') ? ' is-invalid' : ''), 'placeholder' => 'Exp Amount']) }}
+            {{ Form::number('exp_amount', $expense->exp_amount, ['class' => 'form-control' . ($errors->has('exp_amount') ? ' is-invalid' : ''), 
+            'placeholder' => 'Exp Amount','step'=>'0.001']) }}
             {!! $errors->first('exp_amount', '<div class="invalid-feedback">:message</p>') !!}
         </div>
         <div class="form-group">

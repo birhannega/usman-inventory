@@ -27,11 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $items = Item::where('deleted',0)->count();
+        $items_count = Item::where('deleted',0)->count();
         $sales = Sale::count();
         $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today()->toDateString())->sum('exp_amount');
+        $items= Item::where('amount','<',3)->paginate();
 
-
-        return view('home', compact('items','sales','today_expenses'));
+        return view('home', compact('items','items_count','sales','today_expenses'));
     }
 }

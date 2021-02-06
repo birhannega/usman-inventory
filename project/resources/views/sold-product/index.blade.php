@@ -1,9 +1,4 @@
 @extends('layout.master')
-
-@section('template_title')
-    Sold Product
-@endsection
-
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -16,14 +11,7 @@
                                 {{ __('Sold Product') }}
                             </span>
 
-                            <div class="float-right">
-                                <a href="{{ route('sold-products.create') }}"
-                                    class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Create New') }}
-                                </a>
-                            </div>
-                        </div>
+                             </div>
                     </div>
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success">
@@ -36,13 +24,12 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        <th>No</th>
-
-                                        <th>Sale Id</th>
-                                        <th>Product Id</th>
-                                        <th>Qty</th>
-                                        <th>Price</th>
-                                        <th>Total Amount</th>
+                                        
+										<th>Item</th>
+										<th>Date</th>
+                                        <th>Quantity</th>
+										<th>Price</th>
+										<th>Total Amount</th>
 
                                         <th></th>
                                     </tr>
@@ -50,28 +37,18 @@
                                 <tbody>
                                     @foreach ($soldProducts as $soldProduct)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
-
-                                            <td>{{ $soldProduct->sale_id }}</td>
-                                            <td>{{ $soldProduct->product_id }}</td>
-                                            <td>{{ $soldProduct->qty }}</td>
-                                            <td>{{ $soldProduct->price }}</td>
-                                            <td>{{ $soldProduct->total_amount }}</td>
+                                            
+											<td>{{ $soldProduct->ItemName.'('.$soldProduct->product_id.')' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($soldProduct->created_at)->format('d-m-Y')  }}</td>
+											<td>{{ $soldProduct->qty }}</td>
+											<td>{{ $soldProduct->price }}</td>
+											<td>{{ $soldProduct->total_amount }}</td>
 
                                             <td>
-                                                <form action="{{ route('sold-products.destroy', $soldProduct->id) }}"
-                                                    method="POST">
-                                                    <a class="btn btn-sm btn-primary "
-                                                        href="{{ route('sold-products.show', $soldProduct->id) }}"><i
-                                                            class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success"
-                                                        href="{{ route('sold-products.edit', $soldProduct->id) }}"><i
-                                                            class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i>
-                                                        Delete</button>
+                                                <form action="{{ route('sold-products.destroy',$soldProduct->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('sold-products.show',$soldProduct->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
+                                                    {{@csrf_field()}}
+                                            
                                                 </form>
                                             </td>
                                         </tr>
@@ -81,7 +58,10 @@
                         </div>
                     </div>
                 </div>
-                {!! $soldProducts->links() !!}
+
+                <div class="pt-4">
+                    {!! $soldProducts->links("pagination::bootstrap-4") !!}
+                </div>
             </div>
         </div>
     </div>

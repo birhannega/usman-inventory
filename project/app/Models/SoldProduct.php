@@ -32,7 +32,7 @@ class SoldProduct extends Model
 		'total_amount' => 'required',
     ];
 
-    protected $perPage = 20;
+    protected $perPage = 5;
 
     /**
      * Attributes that should be mass-assignable.

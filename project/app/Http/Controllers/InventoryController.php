@@ -33,8 +33,19 @@ class InventoryController extends Controller
     {
         $items= Item::all();
         $selected = Item::first()->Item_code;
-        $inventories = Inventory::orderBy('inventories.created_at','desc')->paginate();
-
+        $inventories = Inventory::select(
+            'InventoryId',
+            'inventories.ItemCode',
+            'Quantity',
+            'UnitPrice',
+            'TotalPrice',
+            'TotalPrice',
+            'sale_price',
+            'inventories.created_at',
+            'ItemName',
+            'unit'
+        )->join('items', 'items.Item_code', '=', 'inventories.ItemCode')
+        ->orderBy('inventories.created_at','desc')->paginate();
         return view('pages.inventory.index', compact('inventories','selected','items'))
             ->with('i', (request()->input('page', 1) - 1) * $inventories->perPage());
     }
@@ -165,7 +176,20 @@ class InventoryController extends Controller
 
     function search(Request $request){
        // return $request;
-        $inventories=Inventory::where('ItemCode',"=", $request->item_code)->orderBy('inventories.created_at','desc')->paginate();;
+        $inventories=Inventory::where('ItemCode',"=", $request->item_code)
+        ->select(
+            'InventoryId',
+            'inventories.ItemCode',
+            'Quantity',
+            'UnitPrice',
+            'TotalPrice',
+            'TotalPrice',
+            'sale_price',
+            'inventories.created_at',
+            'ItemName',
+            'unit'
+        )->join('items', 'items.Item_code', '=', 'inventories.ItemCode')
+        ->orderBy('inventories.created_at','desc')->paginate();;
         $selected=Inventory::where('ItemCode',"=", $request->item_code)->first();
         $items= Item::all();
 

@@ -21,16 +21,45 @@ class ExpenseController extends Controller
     public function index()
     {
         $expenses = Expense::Where('deleted',0)->orderby('created_at','desc')->paginate();
-       $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today()->toDateString())->sum('exp_amount');
-        return view('expense.index', compact('expenses','today_expenses','curentDate'))
+        $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today())->sum('exp_amount');
+        $weekly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[Carbon::today(), Carbon::today()->subDays(7)])->sum('exp_amount');
+        $monthly_expenses= Expense::where('deleted',0)->whereBetween('created_at',[Carbon::today(), Carbon::today()->subDays(30)])->sum('exp_amount');
+ 
+      // $start_date = Carbon::today();
+
+       $start_date = Carbon::today()->subDays(7);
+      // return $start_date;
+    
+
+        return view('expense.index', compact('expenses','today_expenses','weekly_expenses','curentDate','monthly_expenses'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
     }
 
     public function filter(Request $request)
     {
         $expenses = Expense::Where('deleted',0)->orderby('created_at','desc')->paginate();
+        $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today())->sum('exp_amount');
+        $weekly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[Carbon::today(),
+         Carbon::today()->subDays(7)])->sum('exp_amount');
+        $monthly_expenses= Expense::where('deleted',0)->whereBetween('created_at',[
+            Carbon::today()->toDateTimeString(),
+         Carbon::today()->subDays(30)->toDateTimeString()])->sum('exp_amount');
 
-        return view('expense.index', compact('expenses'))
+   if($request->expdate!=null){
+      // return $request->expdate;
+   // $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today())->sum('exp_amount');
+
+   }
+
+   if($request->filled('expdate')) {
+    dd('user_id is not empty.');
+} else {
+    $expenses = Expense::Where('deleted',0)->whereDate('created_at', '=', Carbon::parse($request->expdate)->format('Y-m-d'))->paginate();
+}
+
+
+ 
+        return view('expense.index', compact('expenses','today_expenses','monthly_expenses','weekly_expenses'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
     }
 
@@ -82,8 +111,7 @@ class ExpenseController extends Controller
      */
     public function edit($id)
     {
-        $expense = Expense::find($id);
-
+        $expense = Expense::where('exp_id','=',$id)->first();
         return view('expense.edit', compact('expense'));
     }
 
@@ -94,7 +122,7 @@ class ExpenseController extends Controller
      * @param  Expense $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expense $expense)
+    public function update(Request $request, $id)
     {
         request()->validate(Expense::$rules);
 
@@ -111,7 +139,7 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        $expense = Expense::find($id)->delete();
+        $expense = Expense::where('exp_id','=',$id)->delete();
 
         return redirect()->route('expenses.index')
             ->with('success', 'Expense deleted successfully');

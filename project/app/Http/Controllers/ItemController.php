@@ -25,11 +25,20 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::orderby('created_at','desc')->paginate();
+       // echo json_encode($request->itemname);
 
-        return view('item.index', compact('items'))
+        if($request->itemname!=null){
+            $items = Item::where('ItemName',$request->itemname)->orderBy('ItemName','asc')->paginate();
+        }else if($request->itemcode!=null){
+            $items = Item::where('Item_code',$request->itemcode)->orderBy('ItemName','asc')->paginate();
+        }else{
+        $items = Item::orderby('ItemName','asc')->paginate();
+
+        }
+    
+         return view('item.index', compact('items'))
             ->with('i', (request()->input('page', 1) - 1) * $items->perPage());
     }
 

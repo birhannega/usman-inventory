@@ -1,6 +1,8 @@
-@extends('layout.master')
+@extends('layouts.app')
 
-
+@section('template_title')
+    Update Sold Product
+@endsection
 
 @section('content')
     <section class="content container-fluid">
@@ -14,12 +16,9 @@
                         <span class="card-title">Update Sold Product</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST"
-                            action="{{ route('sold-products.update', $soldProduct->id) }}"
-                            role="form"
-                            enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('sold-products.update', $soldProduct->id) }}"  role="form" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
-                            {{ @csrf_field() }}
+                            @csrf
 
                             @include('sold-product.form')
 

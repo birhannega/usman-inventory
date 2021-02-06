@@ -36,7 +36,6 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>Trade name</th>
-                                        <th>Tin Number</th>
                                         <th>Name</th>
                                         <th>Phone</th>
 
@@ -48,7 +47,6 @@
                                     @foreach ($clients as $client)
                                         <tr>
                                             <td>{{ $client->trade_name }}</td>
-                                            <td>{{ $client->tin_number }}</td>
                                             <td>{{ $client->name }}</td>
                                             <td>{{ $client->phone }}</td>
                                             <td>

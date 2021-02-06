@@ -2916,6 +2916,9 @@ pre code {
 .order-2 {
     order: 2;
 }
+p{
+    font-size: 1rem !important;
+}
 
 .order-3 {
     order: 3;
@@ -13158,6 +13161,13 @@ a.text-dark:focus {
         background-color: #ffffff !important;
     }
 
+    @media print{
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid black !important;
+        }
+    }
+
     .table-bordered th,
     .table-bordered td {
         border: 1px solid #dee2e6 !important;
@@ -13991,8 +14001,16 @@ html {
     padding-right: 0;
 }
 
-body {
-    background: #f3f4fa;
+@media screen{
+    body {
+        background: #f3f4fa;
+    }
+}
+
+@media print{
+    body {
+        background: #ffffff;
+    }
 }
 
 *:-moz-full-screen,
@@ -14047,12 +14065,22 @@ body {
     transition: none;
 }
 
+@media screen{
 .content-wrapper {
     background: #f3f4fa;
     padding: 1.5rem 1.7rem;
     width: 100%;
     flex-grow: 1;
 }
+}
+@media print{
+    .content-wrapper {
+        background: #f1f1f1 !important;
+        padding: 1.5rem 1.7rem;
+        width: 100%;
+        flex-grow: 1;
+    }
+    }
 
 @media (max-width: 991px) {
     .content-wrapper {
@@ -14902,6 +14930,48 @@ small {
     margin-bottom: 0;
 }
 
+@media print{
+    .receiver{
+        font-size: 1.5rem !important;
+    }
+   
+    .table th, .table td {
+        vertical-align: bottom;
+        font-size: 1rem !important;
+         line-height: 1; 
+         border:2px solid black !important;
+        padding: 12px 15px;
+        font-size: 16px !important;
+    }
+    .address  p{
+        font-size: 1rem !important;
+    }
+    table {
+        border-collapse: collapse !important;
+      }
+    .table {
+        border:1px solid rgb(82, 80, 80) !important;
+        border-width:1px 0 0 1px !important;
+        border-collapse: collapse !important;
+
+        
+    }
+    th, td {
+        /* border:solid #000 !important; */
+        border-width:0 1px 1px 0 !important;
+    }
+    tr ,td{
+        border-width:0 1px 1px 0 !important;   
+    }
+  
+}
+/* *{
+-webkit-print-color-adjust: exact !important;  
+color-adjust: exact !important;                 
+} */
+
+
+
 .table thead th {
     border-top: 0;
     border-bottom-width: 1px;
@@ -14912,10 +14982,18 @@ small {
 .table thead th i {
     margin-left: 0.325rem;
 }
+.address p{
+    font-size: 1rem !important;
+}
+
+.table th, .table td ,span p {
+    vertical-align: BOTTOM !important;
+    font-size: 1rem !important;
+}
 
 .table th,
 .table td {
-    vertical-align: middle;
+    vertical-align: bottom;
     font-size: 0.875rem;
     line-height: 1;
     white-space: nowrap;

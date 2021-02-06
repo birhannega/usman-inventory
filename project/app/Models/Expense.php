@@ -33,6 +33,7 @@ class Expense extends Model
      * @var array
      */
     protected $fillable = ['exp_id','exp_amount','exp_reason','deleted'];
+    protected $dates=['created_at'];
 
 
 

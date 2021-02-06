@@ -31,11 +31,11 @@ class Client extends Model
     use SoftDeletes;
 
     static $rules = [
-        'tin_number' => 'min:13|unique:clients,tin_number',
+        //'tin_number' => 'min:13|unique:clients,tin_number',
         'trade_name'=>'min:5|unique:clients,trade_name',
         'name' => 'required',
         'phone'=>'required|unique:clients,phone',
-        'email'=>'unique:clients,email'
+       // 'email'=>'unique:clients,email'
     ];
 
     protected $perPage = 10;

@@ -12,6 +12,11 @@
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
+                        <a href="{{ route('credits.index') }}"
+                                    class="btn btn-success btn-sm float-right"
+                                    data-placement="left">
+                                    <i class="mdi mdi-add-circle"></i> {{ __('credit list') }}
+                                </a>
                             <span id="card_title">
                                 {{ __('Credit') }}
                             </span>
@@ -124,8 +129,8 @@
                                         <tr>
 
                                             <td>{{ Carbon\Carbon::parse($credit->created_at)->format('d/m/Y') }}</td>
-                                            <td class="text-capitalize">{{ $credit->creditFor }}</td>
-                                            <td>{{ $credit->item_code }}</td>
+                                            <td class="text-capitalize">{{ $credit->creditFor.'('.$credit->trade_name.')' }}</td>
+                                            <td>{{ $credit->ItemName.'('.$credit->item_code.')' }}</td>
                                             <td>{{ $credit->amount }}</td>
                                             <td>{{ $credit->unitPrice }}</td>
                                             <td>{{ $credit->totalprice }}</td>
@@ -139,9 +144,9 @@
                                                         href="{{ route('credits.edit', $credit->credit_id) }}"><i
                                                             class="fa fa-fw fa-edit"></i> Edit</a>
                                                     {{ @csrf_field() }}
-                                                    <button type="submit"
+                                                    <!-- <button type="submit"
                                                         class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i>
-                                                        Delete</button>
+                                                        Delete</button> -->
                                                 </form>
                                             </td>
                                         </tr>

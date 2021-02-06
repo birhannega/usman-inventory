@@ -23,6 +23,14 @@ return [
     'sales' => 'ሽያጮች',
     'expenses' => 'ወጭ መመዝገቢያ',
     'settings' => 'አቀማመጦች',
+    'am'=>'አማርኛ',
+    'en'=>'እንግሊዝኛ',
+    'english'=>'እንግሊዝኛ',
+    'amharic'=>'አማርኛ',
+    'sold items'=>' የተሸጡ እቃዎች',
+    'low in stock'=>'በማለቅ ላይ ያሉ እቃወች'
+
+
 
 
 ];

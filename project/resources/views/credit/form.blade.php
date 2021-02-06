@@ -27,10 +27,10 @@
                     onchange="getPrice()"
                     name="item_code"
                     id="item_code">
-                    <option value="">Select Item</option>
+                    <option value="">Select Item code</option>
                     @foreach ($items as $item)
                         <option value="{{ $item->Item_code }}"
-                            {{ $item->Item_code == $credit->item_code ? 'selected' : '' }}> {{ $item->ItemName }}
+                            {{ $item->Item_code == $credit->item_code ? 'selected' : '' }}> {{ $item->ItemName.'('. $item->Item_code.')' }}
                         </option>
                     @endforeach
                 </select>

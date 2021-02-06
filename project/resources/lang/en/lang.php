@@ -28,7 +28,13 @@ return [
     'close'=>'Close',
     'total_amount'=>'Total Amount',
     'unit_price'=>'Unit price',
-    'amount'=>'Amount'
+    'amount'=>'Amount',
+    'am'=>'Amharic',
+    'en'=>'English',
+    'english'=>'English',
+    'amharic'=>'Amharic',
+    'sold items'=>' sold Items',
+    'low in stock'=>'Items with low quantity'
 
 
 ];

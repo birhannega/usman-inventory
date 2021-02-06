@@ -20,10 +20,7 @@
 
                     <div class="card-body">
                         
-                        <div class="form-group">
-                            <strong>Exp Id:</strong>
-                            {{ $expense->exp_id }}
-                        </div>
+                      
                         <div class="form-group">
                             <strong>Exp Amount:</strong>
                             {{ $expense->exp_amount }}
@@ -32,10 +29,7 @@
                             <strong>Exp Reason:</strong>
                             {{ $expense->exp_reason }}
                         </div>
-                        <div class="form-group">
-                            <strong>Deleted:</strong>
-                            {{ $expense->deleted }}
-                        </div>
+                        
 
                     </div>
                 </div>

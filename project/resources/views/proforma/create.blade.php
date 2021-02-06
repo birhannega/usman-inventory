@@ -7,14 +7,21 @@
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
+            <script type="text/javascript">
+      function Print() {
+        location.reload();
+        window.print();  
+      }  
+    </script>
 
                 @includeif('partials.errors')
 
                 <div class="card card-default">
                     <div class="card-header noprint">
-                        <span class="card-title">Create Proforma</span>
+                        <span class="card-title">Create Proforma <button class='btn btn-info'  onclick='print()'>print </button></span>
                     </div>
                     <div class="card-body">
+
 
                         @empty($proforma_drafted)
                             
@@ -31,24 +38,34 @@
                         @else 
                       
                         <div class="border pt-1 pb-1 pr-1 pl-2" style='border:4px solid blue'> 
-                            <h3 class="text-center">{{Config::get('constants.trade_name_am')}}</h3>
-                            <h4 class="text-center">{{Config::get('constants.trade_name_en')}} </h4>
-                            <p class="text-center">Tin :{{Config::get('constants.tin')}} </p>
+                            <h1 class="text-center">{{Config::get('constants.trade_name_am')}}</h1>
+                            <h4 class="text-center text-uppercase">{{Config::get('constants.trade_name_en')}} </h4>
+                            <p class="text-center " style='font-size:1rem'>Tin :{{Config::get('constants.tin')}} </p>
                         </div>
                         <div class="row py-3">
                             <div class="col-md-9">
-                                <h3 class="text-uppercase text-center"><u>Proforma Invoice</u></h3>
+                                <h3 class="text-uppercase text-center py-5 pl-5"><u>Proforma Invoice</u></h3>
                             </div>
 
                             <div class="col-md-3">
-                                ቀን <u>{{now()->format('Y-m-d')}}</u>
-                                Date 
+                            
+                             <span style='font-size:1rem'>  ቀን </span><br>
+                             <span style='font-size:1rem'>  Date : <u>{{now()->format('Y-m-d')}}</u> </span>
+                                
+
+                                
                                 <br>
-                                መ.ቁ <u>999</u> <br>
-                                Ref. no
-                                <p>No <u>{{$proforma_drafted->ref_number}}</u></p>
+                                <span style='font-size:1rem'>  መ.ቁ </span> <br>
+                             
+                                <p  style='font-size:1rem'> Ref No <u>{{$proforma_drafted->ref_number}}</u></p>
+                                <p  style='font-size:1rem' class="text-center text-danger" style='margin-right:90px'>
+                                <p  class="text-danger"><strong >No. {{$proforma_drafted->proforma_number}}</strong></p>
+                                </p>
+
                             </div>
-                            <p>To : <u>{{$proforma_drafted->p_to}}</u></p>
+                            <p class='pl-4 receiver' style='font-size:1.1rem'>To :<u> <strong> {{$proforma_drafted->p_to}} </strong>  </u></p>
+                         
+
                         </div>
 
                         @endempty
@@ -91,14 +108,20 @@
                     @endif
 
                      <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
+                            <table class="table table-bordered ">
+                                <thead >
                                     <th>#</th>
-                                    <th>item</th>
-                                    <th>Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Unit price</th>
-                                    <th> ጠቅላላ ዋጋ <br>
+                                    <th>Description 
+                                        <br>
+                                        ዝርዝር
+                                    </th>
+                                    <th colspan=""> መለኪያ <br>
+                                    Unit</th>
+
+                                    <th colspan="2">
+                                    የአንዱ ዋጋ <br>
+                                    Unit price</th>
+                                    <th colspan="2"> ጠቅላላ ዋጋ <br>
                                         Total price</th>
                                 </thead>
                                 <tbody>
@@ -111,9 +134,18 @@
                                             
 											<td class="text-capitalize">{{  $proformaItem->ItemName.'('. $proformaItem->Item_code.')' }}</td>
 											<td>{{ $proformaItem->unit }}</td>
-                                            <td>{{ $proformaItem->amount }}</td>
-                                            <td>{{ $proformaItem->unit_price }}</td>
-                                            <td>{{ $proformaItem->total_price }}</td>
+
+                                            <td>
+
+                                            {{ number_format((int)($proformaItem->unit_price)) }}
+                                            
+                                            </td>
+                                            <td>{{round(fmod($proformaItem->unit_price ,1),2)}}</td>
+
+                                            <td>
+                                            {{ number_format((int)($proformaItem->total_price)) }}
+                                            </td>
+                                            <td>{{round(fmod($proformaItem->total_price ,1),2)}}</td>
 
                                             @if (!empty($proforma_drafted && $proforma_drafted->completed!=1))
 
@@ -132,30 +164,40 @@
                                     <tr>
                                         <td  colspan="5" style="border:none">
                                             <span class="text-left">
-                                              <p>Before VAT 15% : {{$grandtotal*0.15}}</p>   
-                                              <p> ቅድመ ክፍያ _____________ </p> 
-                                                <p>Advance Payment should be _______________</p>
-                                                <p>This proforma is valid for <u>{{!empty($proforma_drafted)?$proforma_drafted->p_valid_for:''}}</u> days </p>
-                                                <p>
+                                              <p style='font-size:1rem'>Before VAT 15% : <strong> {{$grandtotal}}</strong></p>   
+                                              <p style='font-size:1rem'> ቅድመ ክፍያ _____________ </p> 
+                                                <p style='font-size:1rem'>Advance Payment should be _______________</p>
+                                                <p style='font-size:1rem'>This proforma is valid for <u>{{!empty($proforma_drafted)?$proforma_drafted->p_valid_for:''}}</u> days </p>
+                                                <p style='font-size:1rem'>
                                                     የማስረከቢያ ቀን: <u>{{!empty($proforma_drafted)?$proforma_drafted->p_delivery_date:''}}</u>
                                                 </p>
                                             </span>
                                             <span style="float: right" class="text-right"> ድምር Total</span>
                                            </td>
-                                        <td>{{$grandtotal}}</td>
+                                        <td>
+
+                                        {{ number_format((int)($grandtotal)) }}
+                                        
+                                        </td>
+                                        <td>{{round(fmod($grandtotal ,1),2)}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="5" style="border:none" class="text-right">ጠቅላላ ድምር / Grand Total</td>
-                                        <td>{{$grandtotal+$grandtotal*0.15}}</td>
+                                        <td>
+
+                                        {{ number_format((int)($grandtotal+$grandtotal*0.15)) }}
+                                        
+                                        </td>
+                                        <td>{{round(fmod($grandtotal+$grandtotal*0.15 ,1),2)}}</td>
                                     </tr>
                                 </tbody>
 
                             </table>
 
                             <div class="py-4 offset-2 col-md-8">
-                            <div class="border">
-                                <p class="text-center pt-2">አድራሻ፡ Address Tel:- {{Config::get('constants.address.tel2')}}/{{Config::get('constants.address.tel1')}} </p>
-                                <p class="text-center">
+                            <div class="border address divFooter">
+                                <p class="text-center pt-2" style='font-size:1rem'>አድራሻ፡ Address Tel:- {{Config::get('constants.address.tel2')}}/{{Config::get('constants.address.tel1')}} </p>
+                                <p class="text-center" style='font-size:1rem'>
                                     {{Config::get('constants.address.location')}}
                                 </p>
                             </div>
@@ -232,7 +274,7 @@
                                                     @foreach ($items as $item)
                                                         <option value="{{ $item->Item_code }}"
                                                            >
-                                                            {{ $item->ItemName }}
+                                                            {{ $item->ItemName.'('.$item->Item_code .')' }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -245,7 +287,7 @@
                                             </div>
                                             <div class="form-group">
                                                 {{ Form::label('unit_price') }}
-                                                <input type="number" required class="form-control" name="unit_price" id="unit_price" placeholder='unit_price'>
+                                                <input type="number" required class="form-control" step='0.001' name="unit_price" id="unit_price" placeholder='unit_price'>
 
                                             </div>
                                       

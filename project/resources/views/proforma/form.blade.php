@@ -30,8 +30,19 @@
                                 </div>
 
                             </div>
+                          
+
+
                         </div>
                     </div>
+                    <div class="col-md-6">
+                    <div class="form-group">
+                    {{ Form::label('proforma number') }}
+                    {{ Form::text('proforma_number', !empty($proforma_drafted)?$proforma_drafted->proforma_number:$last_pfnumber, ['class' => 'form-control' . ($errors->has('p_to') ? ' is-invalid' : ''), 'placeholder' => 'Add 1 on '.$last_pfnumber]) }}
+                    {!! $errors->first('proforma_number', '<div class="invalid-feedback">:message</p>') !!}
+                    </div>
+                    </div>
+
                     <div class="box-footer mt20">
                         @empty($proforma_drafted)
                             <button type="submit"

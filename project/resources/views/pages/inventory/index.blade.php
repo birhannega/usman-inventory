@@ -46,11 +46,12 @@
         <div class="form-group">
             {{ Form::label('choose Item') }}
  
-       <select class="form-control form-control-sm" required id="item_code" name="item_code" autocomplete="item_code">
+       <select class="form-control form-control-sm"  id="item_code" name="item_code" autocomplete="item_code">
  
              <option value="">Select Item</option>
              @foreach ($items as $item)
-              <option  {{ (old('item_code')== $item->Item_code ) ? 'selected' : '' }} value="{{ $item->Item_code }}"> {{ $item->ItemName }} </option>
+              <option  {{ (old('item_code')== $item->Item_code ) ? 'selected' : '' }} value="{{ $item->Item_code }}">
+               {{ $item->ItemName.'('.$item->Item_code.')' }} </option>
              @endforeach  
            </select> 
  
@@ -89,7 +90,7 @@
                                         <tr>
                                             
                                             <td> {{$inventory->created_at->format('Y-m-d')}}</td>
-											<td> {{ $inventory->ItemCode }}</td>
+											<td> {{ $inventory->ItemName.'('.$inventory->ItemCode.')' }}</td>
 											<td>{{ $inventory->Quantity }}</td>
                                             <td>{{ $inventory->sale_price }}</td>
                                             <td>{{ $inventory->UnitPrice }}</td>

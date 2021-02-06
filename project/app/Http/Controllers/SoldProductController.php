@@ -19,7 +19,10 @@ class SoldProductController extends Controller
      */
     public function index()
     {
-        $soldProducts = SoldProduct::paginate();
+        $soldProducts = SoldProduct::orderby('created_at','desc')->select('sale_id','id','product_id','qty','price',
+        'total_amount','sold_products.created_at','sold_products.updated_at','ItemName')
+        ->join('Items', 'sold_products.product_id', '=', 'Items.Item_code')
+        ->paginate();
 
         return view('sold-product.index', compact('soldProducts'))
             ->with('i', (request()->input('page', 1) - 1) * $soldProducts->perPage());

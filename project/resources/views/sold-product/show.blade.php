@@ -1,4 +1,8 @@
-@extends('layout.master')
+@extends('layouts.app')
+
+@section('template_title')
+    {{ $soldProduct->name ?? 'Show Sold Product' }}
+@endsection
 
 @section('content')
     <section class="content container-fluid">
@@ -10,13 +14,12 @@
                             <span class="card-title">Show Sold Product</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary"
-                                href="{{ route('sold-products.index') }}"> Back</a>
+                            <a class="btn btn-primary" href="{{ route('sold-products.index') }}"> Back</a>
                         </div>
                     </div>
 
                     <div class="card-body">
-
+                        
                         <div class="form-group">
                             <strong>Sale Id:</strong>
                             {{ $soldProduct->sale_id }}

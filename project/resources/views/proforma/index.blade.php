@@ -37,8 +37,8 @@
                                     <tr>
 
                                         <th> To</th>
+                                        <th> Proforma number</th>
                                         <th> Date</th>
-                                        <th> Valid For</th>
                                         <th> Before Vat</th>
                                         <th> Delivery Date</th>
                                         <th> Grand Total</th>
@@ -52,8 +52,8 @@
                                          
 
                                             <td>{{ $proforma->p_to }}</td>
-                                            <td>{{ $proforma->p_date }}</td>
-                                            <td>{{ $proforma->p_valid_for }}</td>
+                                            <td>{{ $proforma->proforma_number }}</td>
+                                            <td>{{ $proforma->p_date->format('d-m-Y') }}</td>
                                             <td>{{ $proforma->p_before_vat }}</td>
                                             <td>{{ $proforma->p_delivery_date }}</td>
                                             <td>{{ $proforma->p_grand_total }}</td>
@@ -66,9 +66,9 @@
                                                         href="{{ route('proformas.complete', $proforma->p_id) }}"><i
                                                             class="fa fa-fw fa-eye"></i> Show</a>
                                                     {{ @csrf_field() }}
-                                                    <button type="submit"
+                                                    <!-- <button type="submit"
                                                         class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i>
-                                                        Delete</button>
+                                                        Delete</button> -->
                                                 </form>
                                             </td>
                                         </tr>

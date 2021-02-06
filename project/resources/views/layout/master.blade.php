@@ -24,19 +24,38 @@
     @stack('plugin-styles')
 
     <!-- common css -->
-    {!! Html::style('css/app.css') !!}
+    <!-- {!! Html::style('css/app.css') !!} -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"  media="screen, print" type="text/css" >
+
     <!-- end common css -->
 
     @stack('style')
 
     <style>
+
         @media print {
+            .content-wrapper {
+                background: yellow !im;
+              
+            }
+            tr.border_bottom td {
+                border-bottom: 1px solid black;
+            }
+            
+
+
             .noprint {
                 visibility: hidden;
                 display: none;
             }
+            @media print {
+                div.divFooter {
+                position: fixed;
+                bottom: 0;
+                left:30%;
+  }
+}
 
-        }
 
     </style>
 </head>
