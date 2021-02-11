@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout.master')
 
 @section('template_title')
     Price Change
@@ -16,11 +16,7 @@
                                 {{ __('Price Change') }}
                             </span>
 
-                             <div class="float-right">
-                                <a href="{{ route('price-changes.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
-                                </a>
-                              </div>
+                            
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -36,12 +32,13 @@
                                     <tr>
                                         <th>No</th>
                                         
-										<th>Oldprice</th>
-										<th>Newprice</th>
+										<th>Old price</th>
+										<th>New price</th>
+                                        <th>change</th>
 										<th>Item Code</th>
 										<th>Created By</th>
 
-                                        <th></th>
+                                        <!-- <th></th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,18 +48,11 @@
                                             
 											<td>{{ $priceChange->oldPrice }}</td>
 											<td>{{ $priceChange->newPrice }}</td>
-											<td>{{ $priceChange->Item_code }}</td>
+                                            <td> +{{ $priceChange->newPrice-$priceChange->oldPrice  }}</td>
+											<td>{{ $priceChange->ItemName.'('. $priceChange->Item_code.')' }}</td>
 											<td>{{ $priceChange->created_by }}</td>
 
-                                            <td>
-                                                <form action="{{ route('price-changes.destroy',$priceChange->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('price-changes.show',$priceChange->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('price-changes.edit',$priceChange->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
-                                            </td>
+                                            
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -70,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $priceChanges->links() !!}
+                {!! $priceChanges->links('pagination::bootstrap-4') !!}
             </div>
         </div>
     </div>

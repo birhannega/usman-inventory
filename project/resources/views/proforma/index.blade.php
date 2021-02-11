@@ -31,6 +31,28 @@
                     @endif
 
                     <div class="card-body">
+
+
+                  <form action="" method="get">
+                  {{@csrf_field()}}
+                     <div class='row'>
+                            <div class="col-md-4 mb-2">
+                            <input required type="text" class='form-control' value='{{$pfnumber}}' name="pnumber" id="pnumber">
+                            </div>
+                                <div class="col-md-4 mb-2">
+                                @empty($pfnumber)
+                                @else 
+                                <a href="{{ route('proformas.index') }}" class='btn btn-warning'>
+                                <i class="mdi mdi-keyboard-backspace"></i> back</a>
+                                @endempty
+
+                                <button type='submit' class='btn btn-primary'><i class="mdi mdi-file-find"></i>search</button>
+                                </div>
+
+                    </div>
+                  </form>
+
+
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
@@ -38,7 +60,6 @@
 
                                         <th> To</th>
                                         <th> Proforma number</th>
-                                        <th> Date</th>
                                         <th> Before Vat</th>
                                         <th> Delivery Date</th>
                                         <th> Grand Total</th>
@@ -53,7 +74,6 @@
 
                                             <td>{{ $proforma->p_to }}</td>
                                             <td>{{ $proforma->proforma_number }}</td>
-                                            <td>{{ $proforma->p_date->format('d-m-Y') }}</td>
                                             <td>{{ $proforma->p_before_vat }}</td>
                                             <td>{{ $proforma->p_delivery_date }}</td>
                                             <td>{{ $proforma->p_grand_total }}</td>
@@ -78,7 +98,9 @@
                         </div>
                     </div>
                 </div>
+                <div class='mt-2'>
                 {!! $proformas->links('pagination::bootstrap-4') !!}
+                </div>
             </div>
         </div>
     </div>

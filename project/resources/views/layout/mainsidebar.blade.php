@@ -114,6 +114,10 @@
                         <a class="nav-link"
                             href="{{ url('/lookuptype/list') }}">lookup type</a>
                     </li>
+                    <li class="nav-item {{ active_class(['pricechange']) }}">
+                        <a class="nav-link"
+                            href="{{ url('/pricechange') }}">Pirce change</a>
+                    </li>
                 </ul>
             </div>
         </li>

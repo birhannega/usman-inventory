@@ -1,7 +1,7 @@
-@extends('layout.master')
+@extends('layouts.app')
 
 @section('template_title')
-    Update Credit
+    Update Credited Item
 @endsection
 
 @section('content')
@@ -13,14 +13,14 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Update Credit</span>
+                        <span class="card-title">Update Credited Item</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('credits.update', $credit->id) }}"  role="form" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('credited-items.update', $creditedItem->id) }}"  role="form" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
-                            {{ @csrf_field()}}
+                            @csrf
 
-                            @include('credit.form')
+                            @include('credited-item.form')
 
                         </form>
                     </div>

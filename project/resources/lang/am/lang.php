@@ -28,7 +28,16 @@ return [
     'english'=>'እንግሊዝኛ',
     'amharic'=>'አማርኛ',
     'sold items'=>' የተሸጡ እቃዎች',
-    'low in stock'=>'በማለቅ ላይ ያሉ እቃወች'
+    'low in stock'=>'በማለቅ ላይ ያሉ እቃወች',
+    'list_item'=>'የእቃዎች ዝርዝር',
+    'create_item'=>'አዲስ እቃ መዝግብ',
+    'item_name'=>'የእቃው ስም',
+    'code'=>'ኮድ',
+    'unit'=>'መለኪያ',
+    'amount'=>'ብዛት',
+    'current_price'=>'መሸጫ ዋጋ',
+    'status'=>'አሁን ያለበት ሁኔታ',
+    
 
 
 

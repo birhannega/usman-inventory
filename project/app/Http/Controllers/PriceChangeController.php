@@ -18,7 +18,17 @@ class PriceChangeController extends Controller
      */
     public function index()
     {
-        $priceChanges = PriceChange::paginate();
+        $priceChanges = PriceChange::select(
+            'oldPrice',
+            'price_changes.id',
+            'price_changes.Item_code',
+            'newPrice',
+            'users.name as created_by',
+            'price_changes.created_at',
+            'ItemName')
+            ->join('items', 'items.Item_code', '=', 'price_changes.Item_code')
+        ->join('users', 'price_changes.created_by', '=', 'users.id')
+        ->orderBy('price_changes.created_at','desc')->paginate();
 
         return view('price-change.index', compact('priceChanges'))
             ->with('i', (request()->input('page', 1) - 1) * $priceChanges->perPage());

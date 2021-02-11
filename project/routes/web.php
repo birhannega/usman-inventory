@@ -13,6 +13,20 @@
 
 
 Route::get('/','Auth\LoginController@showLoginForm')->name('login');
+Route::get('/lock',function(){
+    return view('pages.user-pages.lock-screen');
+});
+
+
+Route::get('pricechange','PriceChangeController@index')->name('price-changes.index');
+Route::get('pricechange/create','PriceChangeController@create')->name('price-changes.create');
+Route::get('pricechange/edit/{id}','PriceChangeController@edit')->name('price-changes.edit');
+Route::get('pricechange/show/{id}','PriceChangeController@show')->name('price-changes.show');
+Route::post('pricechange/store','PriceChangeController@store')->name('price-changes.store');
+Route::post('pricechange/destroy/{id}','PriceChangeController@destroy')->name('price-changes.destroy');
+Route::patch('pricechange/update','PriceChangeController@update')->name('price-changes.destroy');
+
+
  Route::get('login','Auth\LoginController@showLoginForm')->name('login');
  Route::post('login','Auth\LoginController@login');
  Route::post('logout','Auth\LoginController@Logout')->name('logout');
@@ -120,7 +134,9 @@ Route::group(['prefix' => 'credit'], function(){
     Route::get('/', 'CreditController@index')->name('credits.index');
     Route::get('/list', 'CreditController@index')->name('credits.index');
     Route::get('/create', 'CreditController@create')->name('credits.create');
+    Route::get('/create/{id}', 'CreditController@create')->name('credits.complete');
     Route::get('/show/{id}', 'CreditController@show')->name('credits.show');
+    Route::get('/return/{id}', 'CreditController@return')->name('credits.return');
     Route::get('/edit/{id}', 'CreditController@edit')->name('credits.edit');
     Route::post('/search', 'CreditController@search')->name('credits.search');
 
@@ -130,6 +146,27 @@ Route::group(['prefix' => 'credit'], function(){
 
   
 });
+
+
+Route::group(['prefix' => 'creditedItem'], function(){
+    Route::get('/', 'CreditController@index')->name('credited-items.index');
+    Route::get('/list', 'CreditController@index')->name('credited-items.index');
+    Route::get('/create', 'CreditController@create')->name('credited-items.create');
+    Route::get('/create/{id}', 'CreditController@create')->name('credited-items.complete');
+    Route::get('/show/{id}', 'CreditController@show')->name('credited-items.show');
+    Route::get('/return/{id}', 'CreditController@return')->name('credited-items.return');
+    Route::get('/edit/{id}', 'CreditController@edit')->name('credited-items.edit');
+    Route::post('/search', 'CreditController@search')->name('credited-items.search');
+
+    Route::post('/destroy/{id}', 'CreditController@destroy')->name('credited-items.destroy');
+    Route::post('/store', 'CreditController@store')->name('credited-items.store');
+    Route::patch('/update/{id}', 'CreditedItemController@update')->name('credited-items.update');
+
+  
+});
+
+
+
 
 
 Route::group(['prefix' => 'proforma'], function(){
@@ -192,7 +229,7 @@ Route::group(['prefix' => 'sales'], function(){
 });
 Route::group(['prefix' => 'sold-products'], function(){
      Route::get('/', 'SoldProductController@index')->name('sold_products.index');
-   // Route::get('/list', 'SoldProductController@index')->name('sold_products.index');
+    Route::get('/list', 'SoldProductController@index')->name('sold-products.index');
     Route::get('/create', 'SoldProductController@create')->name('sold-products.create');
     Route::get('/create/{id}', 'SoldProductController@create')->name('sold_products.complete');
     Route::get('/show/{id}', 'SoldProductController@show')->name('sold-products.show');

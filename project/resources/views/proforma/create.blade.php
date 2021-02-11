@@ -9,7 +9,8 @@
             <div class="col-md-12">
             <script type="text/javascript">
       function Print() {
-        location.reload();
+        location.refresh();
+    
         window.print();  
       }  
     </script>

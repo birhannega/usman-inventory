@@ -189,7 +189,7 @@ class InventoryController extends Controller
             'ItemName',
             'unit'
         )->join('items', 'items.Item_code', '=', 'inventories.ItemCode')
-        ->orderBy('inventories.created_at','desc')->paginate();;
+        ->orderBy('inventories.created_at','desc')->paginate();
         $selected=Inventory::where('ItemCode',"=", $request->item_code)->first();
         $items= Item::all();
 

@@ -28,7 +28,7 @@ class PriceChange extends Model
 		'created_by' => 'required',
     ];
 
-    protected $perPage = 20;
+    protected $perPage = 5;
 
     /**
      * Attributes that should be mass-assignable.

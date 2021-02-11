@@ -22,16 +22,10 @@ class ExpenseController extends Controller
     {
         $expenses = Expense::Where('deleted',0)->orderby('created_at','desc')->paginate();
         $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today())->sum('exp_amount');
-        $weekly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[Carbon::today(), Carbon::today()->subDays(7)])->sum('exp_amount');
-        $monthly_expenses= Expense::where('deleted',0)->whereBetween('created_at',[Carbon::today(), Carbon::today()->subDays(30)])->sum('exp_amount');
- 
-      // $start_date = Carbon::today();
+        $weekly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[today()->subDays(7)->format('Y-m-d'),today()->addDays(1)->format('Y-m-d')])->sum('exp_amount');
+        $monthly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[today()->subDays(30)->format('Y-m-d'),today()->addDays(1)->format('Y-m-d')])->sum('exp_amount');
 
-       $start_date = Carbon::today()->subDays(7);
-      // return $start_date;
-    
-
-        return view('expense.index', compact('expenses','today_expenses','weekly_expenses','curentDate','monthly_expenses'))
+         return view('expense.index', compact('expenses','today_expenses','weekly_expenses','curentDate','monthly_expenses'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
     }
 
@@ -39,11 +33,9 @@ class ExpenseController extends Controller
     {
         $expenses = Expense::Where('deleted',0)->orderby('created_at','desc')->paginate();
         $today_expenses= Expense::where('deleted',0)->whereDate('created_at', '=', Carbon::today())->sum('exp_amount');
-        $weekly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[Carbon::today(),
-         Carbon::today()->subDays(7)])->sum('exp_amount');
-        $monthly_expenses= Expense::where('deleted',0)->whereBetween('created_at',[
-            Carbon::today()->toDateTimeString(),
-         Carbon::today()->subDays(30)->toDateTimeString()])->sum('exp_amount');
+        $weekly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[today()->subDays(7)->format('Y-m-d'),today()->format('Y-m-d')])->sum('exp_amount');
+        $monthly_expenses=  Expense::where('deleted',0)->whereBetween('created_at',[today()->subDays(30)->format('Y-m-d'),today()->addDays(1)->format('Y-m-d')])->sum('exp_amount');
+
 
    if($request->expdate!=null){
       // return $request->expdate;

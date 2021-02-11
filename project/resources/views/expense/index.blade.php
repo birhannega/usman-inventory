@@ -33,9 +33,9 @@
                     <i class="mdi mdi-cash-usd icon-lg"></i>
                 </div>
                 <div class="float-right">
-                    <p class="mb-0 text-right">Weekly total expense</p>
+                    <p class="mb-0 text-right ">Weekly total expense</p>
                     <div class="fluid-container">
-                    <h3 class="font-weight-medium text-right mb-0">{{$weekly_expenses}}</h3>
+                    <h3 class="font-weight-medium  text-right mb-0">{{$weekly_expenses}}</h3>
                     </div>
                 </div>
                 </div>
@@ -147,7 +147,7 @@
                                     @foreach ($expenses as $expense)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $expense->created_at->format('Y-m-d') }}</td>
+                                            <td>{{ $expense->created_at->format('d-m-Y') }}</td>
 
                                             <td>{{ $expense->exp_amount }}</td>
                                             <td>{{ $expense->exp_reason }}</td>
@@ -162,9 +162,9 @@
                                                         href="{{ route('expenses.edit', $expense->exp_id) }}"><i
                                                             class="fa fa-fw fa-edit"></i> Edit</a>
                                                     {{ @csrf_field() }}
-                                                    <button type="submit"
+                                                    <!-- <button type="submit"
                                                         class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i>
-                                                        Delete</button>
+                                                        Delete</button> -->
                                                 </form>
                                             </td>
                                         </tr>

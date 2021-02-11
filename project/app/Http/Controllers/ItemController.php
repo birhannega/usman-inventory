@@ -28,17 +28,20 @@ class ItemController extends Controller
     public function index(Request $request)
     {
        // echo json_encode($request->itemname);
+       $itemcode=$request->itemcode;
+       $itemname=$request->itemname;
 
         if($request->itemname!=null){
             $items = Item::where('ItemName',$request->itemname)->orderBy('ItemName','asc')->paginate();
         }else if($request->itemcode!=null){
+      
             $items = Item::where('Item_code',$request->itemcode)->orderBy('ItemName','asc')->paginate();
         }else{
         $items = Item::orderby('ItemName','asc')->paginate();
 
         }
     
-         return view('item.index', compact('items'))
+         return view('item.index', compact('items','itemname','itemcode'))
             ->with('i', (request()->input('page', 1) - 1) * $items->perPage());
     }
 

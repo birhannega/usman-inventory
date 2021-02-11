@@ -43,7 +43,7 @@
             <i class="mdi mdi-cash-usd icon-lg"></i>
           </div>
           <div class="float-right">
-            <p class="mb-0 text-right">Total Expenses today</p>
+            <p class="mb-0 text-right">Total Expenses </p>
             <div class="fluid-container">
               <h3 class="font-weight-medium text-right mb-0">{{$today_expenses}}</h3>
             </div>
@@ -108,31 +108,7 @@
     </div>
   </div>
 </div>
-<!-- <div class="row">
-  <div class="col-md-8">
-  <div class="card">
-   
-    <div class="card-body">
-      
 
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <th>Item</th>
-                <th>Current Amount </th>
-    
-              </thead>
-          
-            </table>
-          </div>
-        </div>
-      </div>
-     
-    </div>
-    <div class="col-md-4">
-      hhh
-    </div>
-  </div> -->
 
   <div class="card">
     <div class="card-header">
@@ -203,12 +179,12 @@
                         </table>
                         <div class="py-3">
                             {!! $items->links('pagination::bootstrap-4') !!}
-
-                        </div>
-
-                    </div>
+                 </div>
+          </div>
     </div>
   </div>
+
+  
 
   
  
@@ -217,7 +193,7 @@
 
 
 
-                    @endAuth
+   @endAuth
 @endsection
 
 @push('plugin-scripts')

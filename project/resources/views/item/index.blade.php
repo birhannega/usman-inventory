@@ -32,11 +32,12 @@
                         <form href="{{ route('items.index') }}"
                             method="get">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <input type="text"
                                         class="form-control"
                                         name="itemname"
                                         id="itemname"
+                                        value='{{$itemname}}'
                                         placeholder="Enter Item name">
                                 </div>
                                 <div class="col-md-4">
@@ -44,18 +45,22 @@
                                         class="form-control"
                                         name="itemcode"
                                         id="item code"
+                                        value='{{$itemcode}}'
                                         placeholder="Enter Item code">
                                 </div>
 
+                                <div class="col-md-3">
                                 {{ @csrf_field() }}
-                            </div>
-                            <div class="ml-auto pull-right pt-2">
-                                <button type="reset"
-                                    class="btn btn-warning">reset</button>
-
+                                <a  href="{{ route('items.index') }}"
+                                    class="btn btn-warning"> <i class="mdi mdi-keyboard-backspace"></i>  back</a>
                                 <button type="submit"
-                                    class="btn btn-success">search</button>
+                                    class="btn btn-success"><i class="mdi mdi-file-find"></i>search</button>
+                                </div>
+
+
+                              
                             </div>
+                           
                         </form>
                     </div>
 
@@ -67,12 +72,12 @@
                             <thead class="thead">
                                 <tr>
 
-                                    <th>Name</th>
-                                    <th>Code</th>
-                                    <th>Unit</th>
-                                    <th>Amount</th>
-                                    <th>Current price</th>
-                                    <th>status</th>
+                                    <th>{{__('lang.item_name')}}</th>
+                                    <th>{{__('lang.code')}}</th>
+                                    <th>{{__('lang.unit')}}</th>
+                                    <th>{{__('lang.amount')}}</th>
+                                    <th>{{__('lang.current_price')}}</th>
+                                    <th>{{__('lang.status')}}</th>
                                     <th></th>
                                 </tr>
                             </thead>

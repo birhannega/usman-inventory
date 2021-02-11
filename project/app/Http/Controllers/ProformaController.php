@@ -28,11 +28,16 @@ class ProformaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $proformas = Proforma::orderby('created_at','desc')->paginate();
+        $pfnumber=null;
 
-        return view('proforma.index', compact('proformas'))
+        if($request->has('pnumber')){
+            $pfnumber=$request->pnumber;
+            $proformas = Proforma::where('proforma_number',$request->pnumber)->orderby('created_at','desc')->paginate();
+        }
+        return view('proforma.index', compact('proformas','pfnumber'))
             ->with('i', (request()->input('page', 1) - 1) * $proformas->perPage());
     }
 
@@ -45,9 +50,17 @@ class ProformaController extends Controller
     {
         $proforma = new Proforma();
         $items= Item::orderby('ItemName','asc')->get();
-        $selected = Item::where('amount','>',1)->first()->Item_code;
+        $selected_item=Item::where('amount','>',1)->first();
+        $last_pfnumber='0000';
+        if( $selected_item){
+            $selected = $selected_item->Item_code;
+        }
         $grandtotal = ProformaItem::where('p_id','=',$id)->sum('total_price');
-        $last_pfnumber=Proforma::orderby('p_id','desc')->first()->proforma_number;
+        $lastpf=Proforma::orderby('p_id','desc')->first();
+        if($lastpf){
+            $last_pfnumber=$lastpf->proforma_number;
+
+        }
         //DB::table('proformas')->latest('created_at')->first();
         
 
@@ -97,7 +110,8 @@ class ProformaController extends Controller
              [
                  'id'=>$id,
                 'success'=>'Sale created',
-              'items'=>$items]));
+              'items'=>$items
+              ]));
      
 
 
